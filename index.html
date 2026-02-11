@@ -5,290 +5,168 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>פרויקט מלוקט - ספריית השיעורים</title>
     <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <!-- אייקונים -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
     <style>
         :root {
-            --primary-hue: 230;
-            --primary-color: hsl(var(--primary-hue), 65%, 30%); /* כחול עמוק */
-            --accent-color: #c5a065; /* זהב */
+            --primary-color: #1a237e;
+            --accent-color: #c5a065;
             --bg-color: #f4f6f9;
-            --card-bg: #ffffff;
             --text-color: #333;
-            --text-secondary: #666;
-            --border-color: #e0e0e0;
+            --card-bg: #fff;
             --folder-bg: #fff;
-            --folder-hover: #f8f9fa;
-            --shadow: 0 4px 15px rgba(0,0,0,0.05);
+            --border-color: #e0e0e0;
         }
 
-        [data-theme="dark"] {
-            --primary-color: hsl(var(--primary-hue), 60%, 70%);
-            --bg-color: #121212;
-            --card-bg: #1e1e1e;
-            --text-color: #e0e0e0;
-            --text-secondary: #a0a0a0;
-            --border-color: #333;
-            --folder-bg: #1e1e1e;
-            --folder-hover: #2a2a2a;
-            --shadow: 0 4px 15px rgba(0,0,0,0.3);
-        }
+        body { font-family: 'Rubik', sans-serif; background: var(--bg-color); margin: 0; color: var(--text-color); padding-bottom: 50px; }
 
-        body { 
-            font-family: 'Rubik', sans-serif; 
-            background: var(--bg-color); 
-            margin: 0; 
-            padding: 0; 
-            color: var(--text-color);
-            transition: background 0.3s, color 0.3s;
-        }
-
-        /* --- Header & Tools --- */
+        /* כותרת */
         header {
-            background: linear-gradient(135deg, hsl(230, 65%, 20%) 0%, hsl(230, 65%, 35%) 100%);
-            color: white;
-            padding: 30px 20px 80px 20px; /* Extra padding for search bar overlap */
-            text-align: center;
-            border-radius: 0 0 30px 30px;
-            position: relative;
+            background: linear-gradient(135deg, #151b4f 0%, #283593 100%);
+            color: white; padding: 40px 20px 80px 20px;
+            text-align: center; border-radius: 0 0 30px 30px; position: relative;
         }
+        h1 { margin: 0; font-size: 2.2em; }
+        .subtitle { opacity: 0.8; margin-top: 5px; font-weight: 300; }
 
-        h1 { margin: 0; font-weight: 700; font-size: 2.2em; letter-spacing: -0.5px; }
-        .subtitle { margin-top: 5px; opacity: 0.9; font-weight: 300; color: #e8eaf6; }
-
-        .top-controls {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            display: flex;
-            gap: 10px;
-        }
-
-        .icon-btn {
-            background: rgba(255,255,255,0.2);
-            border: none;
-            color: white;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            cursor: pointer;
-            transition: 0.2s;
-            font-size: 1.1em;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .icon-btn:hover { background: rgba(255,255,255,0.4); transform: scale(1.05); }
-        .icon-btn.active { background: var(--accent-color); color: #fff; }
-
-        /* --- Search Bar --- */
-        .search-container {
-            max-width: 600px;
-            margin: -50px auto 30px auto; /* Pull up into header */
-            padding: 0 20px;
-            position: relative;
-            z-index: 10;
-        }
-
+        /* חיפוש */
+        .search-wrapper { max-width: 600px; margin: -50px auto 30px; padding: 0 20px; position: relative; z-index: 10; }
         .search-box {
-            background: var(--card-bg);
-            border-radius: 50px;
-            display: flex;
-            align-items: center;
-            padding: 5px 20px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
-            border: 1px solid var(--border-color);
+            background: var(--card-bg); border-radius: 50px; display: flex; align-items: center;
+            padding: 5px 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); border: 1px solid var(--border-color);
         }
+        .search-box input { border: none; width: 100%; padding: 15px; font-size: 1.1em; outline: none; background: transparent; }
 
-        .search-box input {
-            border: none;
-            background: transparent;
-            padding: 15px;
-            font-size: 1.1em;
-            width: 100%;
-            outline: none;
-            color: var(--text-color);
-            font-family: 'Rubik', sans-serif;
-        }
-        
-        /* --- Content Layout --- */
-        .container { max-width: 800px; margin: 0 auto; padding: 0 15px 40px 15px; }
+        /* תוכן */
+        .container { max-width: 800px; margin: 0 auto; padding: 0 15px; }
 
-        .folder-box { 
-            margin-bottom: 12px; 
-            background: var(--folder-bg); 
-            border-radius: 12px; 
-            box-shadow: var(--shadow);
-            overflow: hidden;
-            border: 1px solid var(--border-color);
-        }
-
+        /* תיקיות */
+        .folder-box { margin-bottom: 10px; background: var(--folder-bg); border-radius: 12px; border: 1px solid var(--border-color); overflow: hidden; }
         .folder-header { 
-            padding: 18px 20px; 
-            cursor: pointer; 
-            font-weight: 500; 
-            display: flex; justify-content: space-between; align-items: center;
-            transition: background 0.2s;
-            color: var(--primary-color);
+            padding: 15px 20px; cursor: pointer; display: flex; justify-content: space-between; 
+            align-items: center; font-weight: 500; transition: background 0.2s; color: var(--primary-color);
         }
-        .folder-header:hover { background: var(--folder-hover); }
+        .folder-header:hover { background: #f8f9fa; }
+        .folder-content { display: none; border-top: 1px solid var(--border-color); background: #fafafa; }
+        .show { display: block !important; }
+
+        /* שיעורים */
+        .file-card { padding: 15px 20px; border-bottom: 1px solid #eee; background: white; }
+        .file-card:last-child { border-bottom: none; }
+        .file-title { display: block; font-weight: 600; margin-bottom: 10px; color: #444; }
         
-        .folder-header.nested { 
-            background: rgba(0,0,0,0.02); 
-            font-size: 0.95em; 
-            padding: 12px 20px;
-            border-top: 1px solid var(--border-color);
-            color: var(--text-color);
-        }
-
-        .folder-content { display: none; }
-        .show { display: block; animation: fadeIn 0.3s; }
-
-        /* --- Player Card --- */
-        .file-card { 
-            background: var(--card-bg); 
-            border-top: 1px solid var(--border-color); 
-            padding: 20px; 
-            position: relative;
-        }
-
-        .file-header-row {
-            display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px;
-        }
-        .file-title { font-weight: 600; color: var(--text-color); font-size: 1em; line-height: 1.4; }
+        audio { width: 100%; height: 35px; border-radius: 20px; outline: none; margin-bottom: 10px; }
         
-        .action-buttons { display: flex; gap: 8px; }
-        .action-icon {
-            background: transparent; border: none; cursor: pointer; color: var(--text-secondary);
-            font-size: 1.1em; padding: 5px; transition: 0.2s;
-        }
-        .action-icon:hover { color: var(--primary-color); }
-        .action-icon.fav-active { color: #e91e63; }
-
-        audio { width: 100%; height: 40px; margin-bottom: 15px; border-radius: 20px; outline: none; }
-        /* CSS Hack for Dark Mode Audio Element Filters if needed */
-        [data-theme="dark"] audio { filter: invert(0.9) hue-rotate(180deg); }
-
         .controls { display: flex; gap: 8px; flex-wrap: wrap; }
-        
-        .speed-btn { 
-            background: var(--bg-color); border: 1px solid var(--border-color);
-            padding: 6px 14px; cursor: pointer; border-radius: 20px; 
-            font-size: 0.9em; color: var(--text-color); transition: 0.2s;
-        }
-        .speed-btn:hover { background: var(--folder-hover); }
-        .speed-btn.active { background: var(--primary-color); color: #fff; border-color: var(--primary-color); }
+        .btn { border: 1px solid #ccc; background: white; padding: 4px 12px; border-radius: 15px; cursor: pointer; font-size: 0.85em; }
+        .btn.active { background: var(--primary-color); color: white; border-color: var(--primary-color); }
+        .download-link { margin-right: auto; text-decoration: none; color: var(--primary-color); font-size: 0.9em; font-weight: 500; }
 
-        .download-link {
-            margin-right: auto; text-decoration: none; color: var(--primary-color);
-            font-size: 0.9em; font-weight: 500; display: flex; align-items: center; gap: 5px;
+        /* מנהל / העלאה */
+        .admin-toggle { position: absolute; top: 20px; left: 20px; color: rgba(255,255,255,0.6); cursor: pointer; }
+        .admin-toggle:hover { color: white; }
+        
+        #admin-panel { 
+            display: none; background: white; padding: 20px; border-radius: 12px; 
+            box-shadow: 0 5px 30px rgba(0,0,0,0.2); margin-bottom: 30px; border: 2px solid var(--accent-color);
         }
+        .admin-row { display: flex; gap: 10px; margin-bottom: 10px; flex-wrap: wrap; }
+        .admin-input { flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 6px; }
+        .primary-btn { background: var(--primary-color); color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; }
+        .primary-btn:hover { opacity: 0.9; }
+        
+        /* Loading & Status */
+        #status-msg { margin-top: 10px; font-size: 0.9em; font-weight: bold; }
+        .hidden-by-search { display: none !important; }
+        .highlight { background-color: #fff3cd; }
 
-        /* --- Visual Enhancements --- */
-        .badge {
-            font-size: 0.75em; background: var(--bg-color); padding: 2px 8px; 
-            border-radius: 10px; color: var(--text-secondary); margin-right: 8px;
-        }
-        
-        .progress-bar {
-            height: 3px; background: #ddd; width: 100%; margin-top: 10px; border-radius: 2px; overflow: hidden;
-            display: none;
-        }
-        .progress-fill { height: 100%; background: #4caf50; width: 0%; transition: width 0.3s; }
-
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
-        
-        #loader { text-align: center; padding: 40px; color: var(--text-secondary); }
-        
-        /* Mobile Tweaks */
         @media (max-width: 600px) {
             h1 { font-size: 1.8em; }
-            .search-container { margin-top: -40px; }
+            .admin-row { flex-direction: column; }
         }
     </style>
 </head>
 <body>
 
 <header>
-    <div class="top-controls">
-        <button class="icon-btn" onclick="toggleTheme()" title="מצב לילה/יום">
-            <i class="fas fa-moon" id="theme-icon"></i>
-        </button>
-        <button class="icon-btn" onclick="toggleFavoritesView()" id="fav-filter-btn" title="הצג מועדפים בלבד">
-            <i class="fas fa-heart"></i>
-        </button>
+    <div class="admin-toggle" onclick="toggleAdminPanel()" title="כניסת מנהל">
+        <i class="fas fa-lock"></i>
     </div>
     <h1>פרויקט מלוקט</h1>
     <div class="subtitle">שיעורים בספר המאמרים מלוקט מפי טובי המשפיעים</div>
 </header>
 
-<div class="search-container">
-    <div class="search-box">
-        <i class="fas fa-search" style="color: #999;"></i>
-        <input type="text" id="searchInput" placeholder="חפש שיעור, מאמר או נושא..." onkeyup="filterContent()">
-        <i class="fas fa-times" style="cursor:pointer; color:#999; display:none" id="clearSearch" onclick="clearSearch()"></i>
-    </div>
-</div>
-
 <div class="container">
-    <div id="loader">
-        <i class="fas fa-circle-notch fa-spin fa-2x"></i><br><br>
-        טוען את מאגר השיעורים...
+    <!-- שורת חיפוש -->
+    <div class="search-wrapper">
+        <div class="search-box">
+            <i class="fas fa-search" style="color: #999;"></i>
+            <input type="text" id="searchInput" placeholder="חפש שיעור או תיקייה..." onkeyup="searchHandler()">
+        </div>
+    </div>
+
+    <!-- פאנל ניהול (מוסתר) -->
+    <div id="admin-panel">
+        <h3><i class="fas fa-cloud-upload-alt"></i> העלאת שיעור חדש</h3>
+        <p style="font-size:0.8em; color:#666; margin-bottom:15px">
+            שים לב: שם התיקייה חייב להיות ייחודי. אם התיקייה קיימת, הקובץ יתווסף אליה (במגבלות ה-API).
+            <br>גודל מקסימלי מומלץ להעלאה כאן: 25MB.
+        </p>
+        
+        <div class="admin-row">
+            <input type="password" id="github-token" class="admin-input" placeholder="הדבק כאן GitHub Token">
+        </div>
+        <div class="admin-row">
+            <input type="text" id="upload-folder" class="admin-input" placeholder="שם התיקייה (למשל: סוכות - תשפד)">
+        </div>
+        <div class="admin-row">
+            <input type="file" id="upload-file" class="admin-input" accept=".mp3,.m4a,.wav">
+            <button class="primary-btn" onclick="startUpload()">העלה קובץ</button>
+        </div>
+        <div id="status-msg"></div>
+    </div>
+
+    <!-- אזור השיעורים -->
+    <div id="loader" style="text-align:center; padding:40px; color:#666;">
+        <i class="fas fa-spinner fa-spin fa-2x"></i><br>טוען נתונים...
     </div>
     <div id="library-root"></div>
 </div>
 
 <script>
     // --- הגדרות ---
+    // שנה לשם המשתמש והמאגר שלך
     const USERNAME = 'dovi770'; 
     const REPO_NAME = 'meluket';    
     // -------------
 
-    let allFilesData = []; // Store for search
-    let favorites = JSON.parse(localStorage.getItem('meluket_favs')) || [];
-    let showOnlyFavorites = false;
+    let allReleases = [];
 
-    // אתחול
-    initTheme();
-    
-    // טעינת נתונים
-    const apiUrl = `https://api.github.com/repos/${USERNAME}/${REPO_NAME}/releases?per_page=100`;
-
-    fetch(apiUrl)
-    .then(res => res.json())
-    .then(releases => {
-        document.getElementById('loader').style.display = 'none';
-        const fileTree = buildFileTree(releases);
-        renderTree(fileTree, document.getElementById('library-root'));
-    })
-    .catch(err => {
-        document.getElementById('loader').innerHTML = 'שגיאה בטעינה. בדוק חיבור רשת או פרטי מאגר.';
-        console.error(err);
+    // טעינת הדף
+    document.addEventListener('DOMContentLoaded', () => {
+        loadData();
+        // בדיקה אם יש טוקן שמור
+        const savedToken = localStorage.getItem('gh_token');
+        if(savedToken) document.getElementById('github-token').value = savedToken;
     });
 
-    // 1. Theme Logic
-    function initTheme() {
-        if(localStorage.getItem('theme') === 'dark') {
-            document.body.setAttribute('data-theme', 'dark');
-            document.getElementById('theme-icon').className = 'fas fa-sun';
-        }
-    }
-    function toggleTheme() {
-        const isDark = document.body.getAttribute('data-theme') === 'dark';
-        if(isDark) {
-            document.body.removeAttribute('data-theme');
-            document.getElementById('theme-icon').className = 'fas fa-moon';
-            localStorage.setItem('theme', 'light');
-        } else {
-            document.body.setAttribute('data-theme', 'dark');
-            document.getElementById('theme-icon').className = 'fas fa-sun';
-            localStorage.setItem('theme', 'dark');
+    // 1. טעינת נתונים
+    async function loadData() {
+        try {
+            const res = await fetch(`https://api.github.com/repos/${USERNAME}/${REPO_NAME}/releases?per_page=100`);
+            if(!res.ok) throw new Error('שגיאה בטעינת הנתונים');
+            allReleases = await res.json();
+            
+            document.getElementById('loader').style.display = 'none';
+            const tree = buildTree(allReleases);
+            renderTree(tree, document.getElementById('library-root'));
+        } catch (err) {
+            document.getElementById('loader').innerHTML = 'שגיאה: ' + err.message;
         }
     }
 
-    // 2. Data Structure
-    function buildFileTree(releases) {
+    // 2. בניית עץ
+    function buildTree(releases) {
         const tree = {};
         releases.forEach(release => {
             const parts = release.name.split(' - ').map(s => s.trim());
@@ -296,7 +174,7 @@
             parts.forEach((part, index) => {
                 if (!current[part]) {
                     if (index === parts.length - 1) {
-                        current[part] = { type: 'files', data: release.assets };
+                        current[part] = { type: 'files', data: release.assets, id: release.id, tagName: release.tag_name };
                     } else {
                         current[part] = { type: 'folder', children: {} };
                     }
@@ -307,7 +185,7 @@
         return tree;
     }
 
-    // 3. Rendering
+    // 3. הצגה (Rendering)
     function renderTree(node, container) {
         const sortedKeys = Object.keys(node).sort((a, b) => a.localeCompare(b, 'he'));
         
@@ -316,240 +194,236 @@
             
             if (value.type === 'folder') {
                 const folderDiv = document.createElement('div');
-                folderDiv.className = 'folder-box folder-node';
-                folderDiv.setAttribute('data-name', key);
+                folderDiv.className = 'folder-box folder-item';
+                folderDiv.setAttribute('data-search-text', key); // לחיפוש
+                
                 folderDiv.innerHTML = `
                     <div class="folder-header" onclick="toggleFolder(this)">
-                        <div><i class="far fa-folder" style="margin-left:8px"></i> ${key}</div>
-                        <i class="fas fa-chevron-down arrow-icon"></i>
+                        <div><i class="far fa-folder" style="color:#fbc02d; margin-left:8px"></i>${key}</div>
+                        <i class="fas fa-chevron-down arrow"></i>
                     </div>
                     <div class="folder-content"></div>
                 `;
                 renderTree(value.children, folderDiv.querySelector('.folder-content'));
                 container.appendChild(folderDiv);
             } else {
-                const endFolder = document.createElement('div');
-                endFolder.className = 'folder-box folder-node';
-                endFolder.setAttribute('data-name', key);
-                endFolder.innerHTML = `
-                    <div class="folder-header nested" onclick="toggleFolder(this)">
-                        <div><i class="fas fa-compact-disc" style="margin-left:8px"></i> ${key} <span class="badge">${value.data.length}</span></div>
-                        <i class="fas fa-chevron-down arrow-icon"></i>
+                // תיקיית קצה (Release)
+                const releaseDiv = document.createElement('div');
+                releaseDiv.className = 'folder-box folder-item release-item';
+                releaseDiv.setAttribute('data-search-text', key);
+                
+                releaseDiv.innerHTML = `
+                    <div class="folder-header" style="background:#f8faff" onclick="toggleFolder(this)">
+                        <div><i class="fas fa-compact-disc" style="color:#1a237e; margin-left:8px"></i>${key} (${value.data.length})</div>
+                        <i class="fas fa-chevron-down arrow"></i>
                     </div>
                     <div class="folder-content"></div>
                 `;
                 
-                const filesContainer = endFolder.querySelector('.folder-content');
+                const contentDiv = releaseDiv.querySelector('.folder-content');
                 let hasAudio = false;
                 value.data.forEach(file => {
                     if (file.name.match(/\.(mp3|m4a|wav|ogg)$/i)) {
-                        createPlayer(file, filesContainer);
+                        createPlayer(file, contentDiv);
                         hasAudio = true;
                     }
                 });
-                if(hasAudio) container.appendChild(endFolder);
+                
+                if(hasAudio) container.appendChild(releaseDiv);
             }
         }
     }
 
     function toggleFolder(header) {
         const content = header.nextElementSibling;
-        const icon = header.querySelector('.arrow-icon');
-        
+        const arrow = header.querySelector('.arrow');
         if (content.classList.contains('show')) {
             content.classList.remove('show');
-            icon.className = 'fas fa-chevron-down arrow-icon';
+            arrow.className = 'fas fa-chevron-down arrow';
         } else {
             content.classList.add('show');
-            icon.className = 'fas fa-chevron-up arrow-icon';
+            arrow.className = 'fas fa-chevron-up arrow';
         }
     }
 
-    // 4. Player Creation
+    // 4. נגן
     function createPlayer(file, container) {
-        const cleanName = file.name.replace(/\.[^/.]+$/, "").replace(/_/g, " ");
-        const uniqueId = `audio_${file.id}`;
-        const isFav = favorites.includes(uniqueId);
-        
-        // בדיקת היסטוריה
-        const savedTime = localStorage.getItem(uniqueId) || 0;
-        const width = savedTime > 0 ? '50%' : '0%'; // התחלה ויזואלית
-        
+        const name = file.name.replace(/\.[^/.]+$/, "").replace(/_/g, " ");
         const div = document.createElement('div');
         div.className = 'file-card file-item';
-        div.setAttribute('data-title', cleanName);
-        div.setAttribute('data-id', uniqueId);
-        if(isFav) div.classList.add('is-favorite');
-
+        div.setAttribute('data-search-text', name);
+        
         div.innerHTML = `
-            <div class="file-header-row">
-                <span class="file-title">${cleanName}</span>
-                <div class="action-buttons">
-                    <button class="action-icon ${isFav ? 'fav-active' : ''}" onclick="toggleFav('${uniqueId}', this)" title="הוסף למועדפים">
-                        <i class="${isFav ? 'fas' : 'far'} fa-heart"></i>
-                    </button>
-                    <button class="action-icon" onclick="shareFile('${cleanName}', '${file.browser_download_url}')" title="שתף בוואטסאפ">
-                        <i class="fab fa-whatsapp"></i>
-                    </button>
-                </div>
-            </div>
-            
-            <audio id="${uniqueId}" controls preload="none">
+            <span class="file-title">${name}</span>
+            <audio controls preload="none">
                 <source src="${file.browser_download_url}" type="audio/mpeg">
             </audio>
-            
             <div class="controls">
-                <button class="speed-btn active" onclick="setSpeed('${uniqueId}', 1, this)">1x</button>
-                <button class="speed-btn" onclick="setSpeed('${uniqueId}', 1.25, this)">1.25</button>
-                <button class="speed-btn" onclick="setSpeed('${uniqueId}', 1.5, this)">1.5</button>
-                <button class="speed-btn" onclick="setSpeed('${uniqueId}', 2, this)">2x</button>
+                <button class="btn active" onclick="setSpeed(this, 1)">x1</button>
+                <button class="btn" onclick="setSpeed(this, 1.5)">x1.5</button>
+                <button class="btn" onclick="setSpeed(this, 2)">x2</button>
                 <a href="${file.browser_download_url}" download class="download-link"><i class="fas fa-download"></i> הורדה</a>
-            </div>
-            
-            <div class="progress-bar" id="prog_${uniqueId}" style="display:${savedTime > 0 ? 'block' : 'none'}">
-                <div class="progress-fill" style="width: ${savedTime > 0 ? '10%' : '0%'}"></div>
             </div>
         `;
         container.appendChild(div);
-
-        // Audio Logic
-        const audio = div.querySelector('audio');
-        
-        // שחזור מיקום בטעינה
-        audio.onloadedmetadata = () => {
-             const saved = localStorage.getItem(uniqueId);
-             if(saved && saved > 0) {
-                 audio.currentTime = saved;
-                 // עדכון פס התקדמות (ויזואלי משוער עד לניגון)
-                 div.querySelector('.progress-fill').style.width = (saved / audio.duration) * 100 + '%';
-             }
-        };
-
-        // שמירה תוך כדי ניגון
-        audio.ontimeupdate = () => {
-            if(!audio.paused) {
-                localStorage.setItem(uniqueId, audio.currentTime);
-                // עדכון פס התקדמות
-                const pct = (audio.currentTime / audio.duration) * 100;
-                const progBar = document.getElementById(`prog_${uniqueId}`);
-                progBar.style.display = 'block';
-                progBar.querySelector('.progress-fill').style.width = pct + '%';
-            }
-        };
     }
 
-    // 5. Utility Functions
-    window.setSpeed = function(id, rate, btn) {
-        document.getElementById(id).playbackRate = rate;
-        btn.parentElement.querySelectorAll('.speed-btn').forEach(b => b.classList.remove('active'));
+    function setSpeed(btn, rate) {
+        const audio = btn.closest('.file-card').querySelector('audio');
+        audio.playbackRate = rate;
+        btn.parentElement.querySelectorAll('.btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
     }
 
-    window.toggleFav = function(id, btn) {
-        const icon = btn.querySelector('i');
-        const card = btn.closest('.file-card');
-        
-        if(favorites.includes(id)) {
-            // הסרה
-            favorites = favorites.filter(fid => fid !== id);
-            icon.classList.remove('fas', 'fav-active');
-            icon.classList.add('far');
-            card.classList.remove('is-favorite');
-        } else {
-            // הוספה
-            favorites.push(id);
-            icon.classList.remove('far');
-            icon.classList.add('fas', 'fav-active');
-            card.classList.add('is-favorite');
+    // 5. לוגיקת חיפוש חכמה
+    function searchHandler() {
+        const query = document.getElementById('searchInput').value.toLowerCase();
+        const allFiles = document.querySelectorAll('.file-item');
+        const allFolders = document.querySelectorAll('.folder-item');
+
+        // איפוס: הסתר את כולם
+        if (!query) {
+            allFiles.forEach(el => el.classList.remove('hidden-by-search'));
+            allFolders.forEach(el => {
+                el.classList.remove('hidden-by-search');
+                el.querySelector('.folder-content').classList.remove('show'); // סגור הכל
+            });
+            return;
         }
-        localStorage.setItem('meluket_favs', JSON.stringify(favorites));
+
+        // שלב 1: הסתר הכל
+        allFiles.forEach(el => el.classList.add('hidden-by-search'));
+        allFolders.forEach(el => el.classList.add('hidden-by-search'));
+
+        // שלב 2: מצא התאמות וחשוף הורים
+        let hasResults = false;
         
-        // אם אנחנו במצב סינון מועדפים, רענן תצוגה
-        if(showOnlyFavorites) applyFilters();
-    }
-
-    window.shareFile = function(title, url) {
-        const text = `האזינו לשיעור "${title}" בפרויקט מלוקט:\n${url}`;
-        window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
-    }
-
-    // 6. Search & Filter Logic
-    function filterContent() {
-        const term = document.getElementById('searchInput').value.toLowerCase();
-        const clearBtn = document.getElementById('clearSearch');
-        clearBtn.style.display = term ? 'block' : 'none';
-        
-        applyFilters(term);
-    }
-
-    function clearSearch() {
-        document.getElementById('searchInput').value = '';
-        filterContent();
-    }
-
-    function toggleFavoritesView() {
-        showOnlyFavorites = !showOnlyFavorites;
-        const btn = document.getElementById('fav-filter-btn');
-        btn.classList.toggle('active');
-        applyFilters(document.getElementById('searchInput').value.toLowerCase());
-    }
-
-    function applyFilters(searchTerm = '') {
-        const files = document.querySelectorAll('.file-item');
-        
-        files.forEach(file => {
-            const title = file.getAttribute('data-title').toLowerCase();
-            const isFav = file.classList.contains('is-favorite');
-            
-            // תנאי 1: האם תואם לחיפוש?
-            const matchSearch = title.includes(searchTerm);
-            // תנאי 2: האם תואם למועדפים (אם מופעל)?
-            const matchFav = showOnlyFavorites ? isFav : true;
-
-            if (matchSearch && matchFav) {
-                file.style.display = 'block';
-                // הרחב תיקיות אב
-                expandParents(file);
-            } else {
-                file.style.display = 'none';
+        // חיפוש בקבצים
+        allFiles.forEach(fileDiv => {
+            const text = fileDiv.getAttribute('data-search-text').toLowerCase();
+            if (text.includes(query)) {
+                hasResults = true;
+                fileDiv.classList.remove('hidden-by-search');
+                revealParents(fileDiv);
             }
         });
 
-        // הסתרת תיקיות ריקות
-        document.querySelectorAll('.folder-node').forEach(folder => {
-            // בדוק אם יש בתוכו אלמנטים גלויים (קבצים או תיקיות)
-            const visibleChildren = folder.querySelectorAll('.file-item[style="display: block;"], .folder-node:not([style="display: none;"])');
-            // הערה: הלוגיקה כאן פשוטה, מסתירה אם אין קבצים ישירים גלויים בחיפוש עמוק
-            // בחיפוש פשוט נסתמך על CSS של הקבצים
-            // שיפור: נבדוק אם יש ילד ויזואלי
-            const hasVisibleFile = Array.from(folder.querySelectorAll('.file-item')).some(el => el.style.display === 'block');
-            
-            if (hasVisibleFile) {
-                folder.style.display = 'block';
-            } else {
-                // אם אין קבצים, בדוק אם יש תיקיות פתוחות
-                // במימוש הפשוט: אם זה חיפוש, נסתיר תיקיות ריקות
-                folder.style.display = (searchTerm || showOnlyFavorites) ? 'none' : 'block';
+        // חיפוש בשמות תיקיות (אם השם של התיקייה תואם - הצג אותה ואת כל תוכנה)
+        allFolders.forEach(folderDiv => {
+            const text = folderDiv.getAttribute('data-search-text').toLowerCase();
+            if (text.includes(query)) {
+                hasResults = true;
+                folderDiv.classList.remove('hidden-by-search');
+                revealParents(folderDiv);
+                // אופציה: לפתוח את התיקייה הזו ולהראות את כל הקבצים שבתוכה
+                const content = folderDiv.querySelector('.folder-content');
+                if(content) {
+                    content.classList.add('show');
+                    const children = content.querySelectorAll('.file-item, .folder-item');
+                    children.forEach(c => c.classList.remove('hidden-by-search'));
+                }
             }
         });
     }
 
-    function expandParents(element) {
+    // פונקציה רקורסיבית לחשיפת התיקיות שמעל הקובץ
+    function revealParents(element) {
         let parent = element.parentElement;
-        while(parent && parent.id !== 'library-root') {
-            if(parent.classList.contains('folder-content')) {
-                parent.classList.add('show');
-                // שנה אייקון בכותרת
+        while (parent && parent.id !== 'library-root') {
+            if (parent.classList.contains('folder-content')) {
+                parent.classList.add('show'); // פתח את התיקייה
+                // שנה את האייקון
                 const header = parent.previousElementSibling;
                 if(header) {
-                    const icon = header.querySelector('.arrow-icon');
-                    if(icon) icon.className = 'fas fa-chevron-up arrow-icon';
+                    const arrow = header.querySelector('.arrow');
+                    if(arrow) arrow.className = 'fas fa-chevron-up arrow';
                 }
+            }
+            if (parent.classList.contains('folder-item')) {
+                parent.classList.remove('hidden-by-search'); // הצג את התיקייה עצמה
             }
             parent = parent.parentElement;
         }
     }
 
+    // 6. לוגיקת העלאה (Admin)
+    function toggleAdminPanel() {
+        const panel = document.getElementById('admin-panel');
+        panel.style.display = panel.style.display === 'block' ? 'none' : 'block';
+    }
+
+    async function startUpload() {
+        const token = document.getElementById('github-token').value.trim();
+        const folderName = document.getElementById('upload-folder').value.trim();
+        const fileInput = document.getElementById('upload-file');
+        const status = document.getElementById('status-msg');
+
+        if (!token || !folderName || !fileInput.files[0]) {
+            alert('נא למלא את כל השדות: טוקן, שם תיקייה וקובץ.');
+            return;
+        }
+
+        // שמירת טוקן לעתיד
+        localStorage.setItem('gh_token', token);
+        
+        const file = fileInput.files[0];
+        status.innerHTML = '<span style="color:blue">מתחיל העלאה... נא להמתין ולא לסגור.</span>';
+
+        try {
+            // שלב 1: בדיקה אם קיים Release בשם הזה, אם לא - צור אותו
+            let release = allReleases.find(r => r.name === folderName);
+            
+            if (!release) {
+                status.innerHTML = 'יוצר תיקייה (Release) חדשה בגיטהאב...';
+                // יצירת תגית נקייה (ללא רווחים)
+                const tagName = 'v' + Date.now(); 
+                
+                const createRes = await fetch(`https://api.github.com/repos/${USERNAME}/${REPO_NAME}/releases`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `token ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        tag_name: tagName,
+                        name: folderName,
+                        body: 'הועלה דרך האתר'
+                    })
+                });
+
+                if (!createRes.ok) throw new Error('נכשל ביצירת תיקייה. בדוק הרשאות טוקן.');
+                release = await createRes.json();
+            }
+
+            // שלב 2: העלאת הקובץ (Asset)
+            status.innerHTML = `מעלה את הקובץ: ${file.name}... (זה עלול לקחת זמן)`;
+            
+            // כתובת העלאה מיוחדת של גיטהאב
+            // ה-URL נראה כך: https://uploads.github.com/repos/USER/REPO/releases/ID/assets?name=FILENAME
+            const uploadUrl = `https://uploads.github.com/repos/${USERNAME}/${REPO_NAME}/releases/${release.id}/assets?name=${encodeURIComponent(file.name)}`;
+
+            const uploadRes = await fetch(uploadUrl, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `token ${token}`,
+                    'Content-Type': file.type || 'application/octet-stream'
+                },
+                body: file // שליחת הקובץ הבינארי ישירות
+            });
+
+            if (!uploadRes.ok) {
+                const errText = await uploadRes.text();
+                throw new Error('שגיאה בהעלאה: ' + errText);
+            }
+
+            status.innerHTML = '<span style="color:green">✔ הקובץ הועלה בהצלחה! מרענן...</span>';
+            setTimeout(() => location.reload(), 2000);
+
+        } catch (err) {
+            console.error(err);
+            status.innerHTML = `<span style="color:red">שגיאה: ${err.message}</span>`;
+        }
+    }
 </script>
 
 </body>
