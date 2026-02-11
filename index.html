@@ -51,36 +51,46 @@
         .show { display: block !important; }
 
         /* שיעורים */
-        .file-card { padding: 15px 20px; border-bottom: 1px solid #eee; background: white; }
+        .file-card { padding: 15px 20px; border-bottom: 1px solid #eee; background: white; position: relative; }
         .file-card:last-child { border-bottom: none; }
         .file-title { display: block; font-weight: 600; margin-bottom: 10px; color: #444; }
         
         audio { width: 100%; height: 35px; border-radius: 20px; outline: none; margin-bottom: 10px; }
         
-        .controls { display: flex; gap: 8px; flex-wrap: wrap; }
+        .controls { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
         .btn { border: 1px solid #ccc; background: white; padding: 4px 12px; border-radius: 15px; cursor: pointer; font-size: 0.85em; }
         .btn.active { background: var(--primary-color); color: white; border-color: var(--primary-color); }
         .download-link { margin-right: auto; text-decoration: none; color: var(--primary-color); font-size: 0.9em; font-weight: 500; }
 
-        /* מנהל / העלאה */
-        .admin-toggle { position: absolute; top: 20px; left: 20px; color: rgba(255,255,255,0.6); cursor: pointer; }
+        /* איזור ניהול */
+        .admin-toggle { position: absolute; top: 20px; left: 20px; color: rgba(255,255,255,0.6); cursor: pointer; font-size: 1.2em; }
         .admin-toggle:hover { color: white; }
         
         #admin-panel { 
             display: none; background: white; padding: 20px; border-radius: 12px; 
             box-shadow: 0 5px 30px rgba(0,0,0,0.2); margin-bottom: 30px; border: 2px solid var(--accent-color);
         }
+        
+        /* כפתורי מחיקה - יופיעו רק אחרי כניסה */
+        .admin-actions { display: none; margin-left: 10px; gap: 5px; }
+        .is-admin .admin-actions { display: inline-flex; }
+        
+        .action-btn { background: none; border: none; cursor: pointer; font-size: 1.1em; padding: 5px; transition: 0.2s; }
+        .action-btn.delete { color: #d32f2f; }
+        .action-btn.rename { color: #1976d2; }
+        .action-btn:hover { background: rgba(0,0,0,0.05); border-radius: 50%; }
+
+        /* טופס */
         .admin-row { display: flex; gap: 10px; margin-bottom: 10px; flex-wrap: wrap; }
         .admin-input { flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 6px; }
         .primary-btn { background: var(--primary-color); color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; }
-        .primary-btn:hover { opacity: 0.9; }
-        
-        /* סטטוס העלאה */
-        #upload-progress-container { display: none; margin-top: 15px; background: #eee; border-radius: 10px; height: 10px; overflow: hidden; }
-        #upload-progress-bar { height: 100%; background: #4caf50; width: 0%; transition: width 0.3s; }
-        #status-msg { margin-top: 10px; font-size: 0.9em; font-weight: bold; }
+        .check-btn { background: #4caf50; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; }
 
-        /* Loading & Search Helpers */
+        /* הודעות */
+        #login-status { margin-bottom: 10px; font-weight: bold; }
+        .status-error { color: red; background: #ffebee; padding: 10px; border-radius: 5px; }
+        .status-success { color: green; background: #e8f5e9; padding: 10px; border-radius: 5px; }
+
         .hidden-by-search { display: none !important; }
 
         @media (max-width: 600px) {
@@ -93,50 +103,54 @@
 
 <header>
     <div class="admin-toggle" onclick="toggleAdminPanel()" title="כניסת מנהל">
-        <i class="fas fa-lock"></i>
+        <i class="fas fa-user-lock"></i>
     </div>
     <h1>פרויקט מלוקט</h1>
     <div class="subtitle">שיעורים בספר המאמרים מלוקט מפי טובי המשפיעים</div>
 </header>
 
 <div class="container">
-    <!-- שורת חיפוש -->
     <div class="search-wrapper">
         <div class="search-box">
             <i class="fas fa-search" style="color: #999;"></i>
-            <input type="text" id="searchInput" placeholder="חפש שיעור או תיקייה..." onkeyup="searchHandler()">
+            <input type="text" id="searchInput" placeholder="חפש שיעור..." onkeyup="searchHandler()">
         </div>
     </div>
 
-    <!-- פאנל ניהול (מוסתר) -->
+    <!-- פאנל ניהול -->
     <div id="admin-panel">
-        <h3><i class="fas fa-cloud-upload-alt"></i> העלאת שיעורים (Bulk Upload)</h3>
-        <p style="font-size:0.8em; color:#666; margin-bottom:15px">
-            ניתן לבחור מספר קבצים ביחד. הם יעלו בזה אחר זה לתיקייה שתבחר.
+        <h3><i class="fas fa-key"></i> כניסת מנהל מערכת</h3>
+        <p style="font-size:0.9em; color:#666;">
+            הכנס את ה-Token שלך כדי לקבל הרשאות מחיקה והעלאה.
+            <br>בלי כניסה זו - לא ניתן לבצע שום שינוי באתר.
         </p>
         
         <div class="admin-row">
-            <input type="password" id="github-token" class="admin-input" placeholder="הדבק כאן GitHub Token">
-        </div>
-        <div class="admin-row">
-            <input type="text" id="upload-folder" class="admin-input" placeholder="שם התיקייה (למשל: סוכות - תשפד)">
-        </div>
-        <div class="admin-row">
-            <!-- השינוי: הוספת multiple -->
-            <input type="file" id="upload-files" class="admin-input" multiple accept=".mp3,.m4a,.wav">
-            <button class="primary-btn" onclick="startBatchUpload()">התחל העלאה</button>
+            <input type="password" id="github-token" class="admin-input" placeholder="הדבק כאן GitHub Token (ghp_...)">
+            <button class="check-btn" onclick="verifyToken()">🔓 התחבר</button>
         </div>
         
-        <div id="upload-progress-container">
-            <div id="upload-progress-bar"></div>
+        <div id="login-status"></div>
+
+        <!-- אזור העלאה (יוסתר עד לכניסה) -->
+        <div id="upload-section" style="display:none; border-top:1px solid #eee; margin-top:20px; padding-top:20px;">
+            <h4><i class="fas fa-cloud-upload-alt"></i> העלאת שיעורים חדשים</h4>
+            <div class="admin-row">
+                <input type="text" id="upload-folder" class="admin-input" placeholder="שם התיקייה (למשל: סוכות - תשפד)">
+            </div>
+            <div class="admin-row">
+                <input type="file" id="upload-files" class="admin-input" multiple accept=".mp3,.m4a,.wav">
+                <button class="primary-btn" onclick="startBatchUpload()">התחל העלאה</button>
+            </div>
+            <div id="upload-status"></div>
         </div>
-        <div id="status-msg"></div>
     </div>
 
-    <!-- אזור השיעורים -->
     <div id="loader" style="text-align:center; padding:40px; color:#666;">
         <i class="fas fa-spinner fa-spin fa-2x"></i><br>טוען נתונים...
     </div>
+    
+    <!-- כאן יוצג העץ -->
     <div id="library-root"></div>
 </div>
 
@@ -147,29 +161,77 @@
     // -------------
 
     let allReleases = [];
+    let isAdmin = false; // ברירת מחדל: לא מנהל
 
     document.addEventListener('DOMContentLoaded', () => {
         loadData();
+        // בדיקה אם המשתמש כבר מחובר מפעם קודמת
         const savedToken = localStorage.getItem('gh_token');
-        if(savedToken) document.getElementById('github-token').value = savedToken;
+        if(savedToken) {
+            document.getElementById('github-token').value = savedToken;
+            // אנחנו לא מתחברים אוטומטית כדי לחסוך קריאות API, המשתמש ילחץ התחבר
+        }
     });
 
-    // 1. טעינת נתונים
+    // 1. פונקציית התחברות ובדיקת Token
+    async function verifyToken() {
+        const token = document.getElementById('github-token').value.trim();
+        const statusDiv = document.getElementById('login-status');
+        
+        if(!token) {
+            statusDiv.innerHTML = '<div class="status-error">אנא הכנס Token</div>';
+            return;
+        }
+
+        statusDiv.innerHTML = 'בודק הרשאות... <i class="fas fa-spinner fa-spin"></i>';
+
+        try {
+            // בדיקת תקשורת מול גיטהאב
+            const res = await fetch('https://api.github.com/user', {
+                headers: { 'Authorization': `token ${token}` }
+            });
+
+            if(res.status === 200) {
+                const user = await res.json();
+                // האם המשתמש המחובר הוא באמת הבעלים של ה-Repo?
+                // בדיקה פשוטה: אם הצלחנו להתחבר, ניתן הרשאות
+                isAdmin = true;
+                localStorage.setItem('gh_token', token);
+                
+                statusDiv.innerHTML = `<div class="status-success">✅ מחובר כ: <b>${user.login}</b>. מצב עריכה פעיל.</div>`;
+                document.getElementById('upload-section').style.display = 'block';
+                
+                // רענון העץ כדי להוסיף את כפתורי המחיקה
+                document.getElementById('library-root').classList.add('is-admin');
+                const tree = buildTree(allReleases);
+                document.getElementById('library-root').innerHTML = ''; // ניקוי
+                renderTree(tree, document.getElementById('library-root'));
+            } else {
+                throw new Error('Token לא תקין או פג תוקף (שגיאה 401)');
+            }
+        } catch (err) {
+            isAdmin = false;
+            statusDiv.innerHTML = `<div class="status-error">❌ שגיאה: ${err.message}</div>`;
+            document.getElementById('upload-section').style.display = 'none';
+        }
+    }
+
+    // 2. טעינת נתונים רגילה
     async function loadData() {
         try {
             const res = await fetch(`https://api.github.com/repos/${USERNAME}/${REPO_NAME}/releases?per_page=100`);
-            if(!res.ok) throw new Error('שגיאה בטעינת הנתונים');
+            if(!res.ok) throw new Error('שגיאה בטעינה');
             allReleases = await res.json();
             
             document.getElementById('loader').style.display = 'none';
             const tree = buildTree(allReleases);
             renderTree(tree, document.getElementById('library-root'));
         } catch (err) {
-            document.getElementById('loader').innerHTML = 'שגיאה: ' + err.message;
+            document.getElementById('loader').innerHTML = 'שגיאה בטעינת האתר: ' + err.message;
         }
     }
 
-    // 2. בניית עץ
+    // 3. בנייה והצגה
     function buildTree(releases) {
         const tree = {};
         releases.forEach(release => {
@@ -189,7 +251,6 @@
         return tree;
     }
 
-    // 3. הצגה (Rendering)
     function renderTree(node, container) {
         const sortedKeys = Object.keys(node).sort((a, b) => a.localeCompare(b, 'he'));
         
@@ -198,7 +259,7 @@
             if (value.type === 'folder') {
                 const folderDiv = document.createElement('div');
                 folderDiv.className = 'folder-box folder-item';
-                folderDiv.setAttribute('data-search-text', key);
+                folderDiv.setAttribute('data-search', key);
                 folderDiv.innerHTML = `
                     <div class="folder-header" onclick="toggleFolder(this)">
                         <div><i class="far fa-folder" style="color:#fbc02d; margin-left:8px"></i>${key}</div>
@@ -210,8 +271,8 @@
                 container.appendChild(folderDiv);
             } else {
                 const releaseDiv = document.createElement('div');
-                releaseDiv.className = 'folder-box folder-item release-item';
-                releaseDiv.setAttribute('data-search-text', key);
+                releaseDiv.className = 'folder-box folder-item';
+                releaseDiv.setAttribute('data-search', key);
                 releaseDiv.innerHTML = `
                     <div class="folder-header" style="background:#f8faff" onclick="toggleFolder(this)">
                         <div><i class="fas fa-compact-disc" style="color:#1a237e; margin-left:8px"></i>${key} (${value.data.length})</div>
@@ -220,18 +281,169 @@
                     <div class="folder-content"></div>
                 `;
                 const contentDiv = releaseDiv.querySelector('.folder-content');
-                let hasAudio = false;
                 value.data.forEach(file => {
                     if (file.name.match(/\.(mp3|m4a|wav|ogg)$/i)) {
                         createPlayer(file, contentDiv);
-                        hasAudio = true;
                     }
                 });
-                if(hasAudio) container.appendChild(releaseDiv);
+                container.appendChild(releaseDiv);
             }
         }
     }
 
+    function createPlayer(file, container) {
+        const name = file.name.replace(/\.[^/.]+$/, "").replace(/_/g, " ");
+        const div = document.createElement('div');
+        div.className = 'file-card file-item';
+        div.setAttribute('data-search', name);
+        
+        // יצירת כפתורי מחיקה רק אם isAdmin = true
+        let adminHtml = '';
+        if (isAdmin) {
+            adminHtml = `
+                <div class="admin-actions">
+                    <button class="action-btn rename" onclick="renameFile(${file.id}, '${file.name}')" title="שנה שם"><i class="fas fa-pen"></i></button>
+                    <button class="action-btn delete" onclick="deleteFile(${file.id}, '${name}')" title="מחק"><i class="fas fa-trash"></i></button>
+                </div>
+            `;
+        }
+        
+        div.innerHTML = `
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                <span class="file-title" style="margin:0">${name}</span>
+                ${adminHtml}
+            </div>
+            <audio controls preload="none"><source src="${file.browser_download_url}" type="audio/mpeg"></audio>
+            <div class="controls">
+                <button class="btn active" onclick="setSpeed(this, 1)">x1</button>
+                <button class="btn" onclick="setSpeed(this, 1.5)">x1.5</button>
+                <button class="btn" onclick="setSpeed(this, 2)">x2</button>
+                <a href="${file.browser_download_url}" download class="download-link"><i class="fas fa-download"></i> הורדה</a>
+            </div>
+        `;
+        container.appendChild(div);
+    }
+
+    // --- פעולות מנהל (מחיקה / העלאה) ---
+
+    async function deleteFile(assetId, name) {
+        if(!confirm(`בטוח למחוק את "${name}"?`)) return;
+        
+        const token = localStorage.getItem('gh_token');
+        try {
+            const res = await fetch(`https://api.github.com/repos/${USERNAME}/${REPO_NAME}/releases/assets/${assetId}`, {
+                method: 'DELETE',
+                headers: { 'Authorization': `token ${token}` }
+            });
+            if(res.status === 204) {
+                alert('נמחק בהצלחה!');
+                location.reload();
+            } else {
+                alert('שגיאה במחיקה');
+            }
+        } catch(e) { alert(e.message); }
+    }
+
+    async function renameFile(assetId, originalName) {
+        const ext = originalName.split('.').pop();
+        const base = originalName.replace('.'+ext, '');
+        const newBase = prompt('שם חדש:', base);
+        if(!newBase || newBase === base) return;
+
+        const token = localStorage.getItem('gh_token');
+        try {
+            const res = await fetch(`https://api.github.com/repos/${USERNAME}/${REPO_NAME}/releases/assets/${assetId}`, {
+                method: 'PATCH',
+                headers: { 
+                    'Authorization': `token ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ name: newBase + '.' + ext, label: newBase })
+            });
+            if(res.ok) {
+                alert('שונה בהצלחה');
+                location.reload();
+            } else {
+                alert('שגיאה בשינוי שם');
+            }
+        } catch(e) { alert(e.message); }
+    }
+
+    async function startBatchUpload() {
+        const token = localStorage.getItem('gh_token');
+        const folderName = document.getElementById('upload-folder').value.trim();
+        const fileInput = document.getElementById('upload-files');
+        const status = document.getElementById('upload-status');
+
+        if (!folderName || fileInput.files.length === 0) {
+            status.innerHTML = '<span style="color:red">חסרים פרטים (שם תיקייה או קבצים)</span>';
+            return;
+        }
+        
+        status.innerHTML = 'מתחיל תהליך... <i class="fas fa-spinner fa-spin"></i>';
+
+        try {
+            // 1. חיפוש או יצירת Release
+            let release = allReleases.find(r => r.name === folderName);
+            if (!release) {
+                status.innerHTML = 'יוצר תיקייה חדשה בשרת...';
+                const res = await fetch(`https://api.github.com/repos/${USERNAME}/${REPO_NAME}/releases`, {
+                    method: 'POST',
+                    headers: { 
+                        'Authorization': `token ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ 
+                        tag_name: 'v' + Date.now(), 
+                        name: folderName,
+                        body: 'Uploaded via Website'
+                    })
+                });
+                if(!res.ok) {
+                    const errJson = await res.json();
+                    throw new Error('שגיאה ביצירת תיקייה: ' + (errJson.message || res.status));
+                }
+                release = await res.json();
+            }
+
+            // 2. העלאה
+            const uploadUrlBase = `https://uploads.github.com/repos/${USERNAME}/${REPO_NAME}/releases/${release.id}/assets`;
+            const files = Array.from(fileInput.files);
+            let successCount = 0;
+
+            for(let i=0; i<files.length; i++) {
+                const file = files[i];
+                status.innerHTML = `מעלה קובץ ${i+1} מתוך ${files.length}: <b>${file.name}</b>...`;
+                
+                const res = await fetch(`${uploadUrlBase}?name=${encodeURIComponent(file.name)}`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `token ${token}`,
+                        'Content-Type': file.type || 'application/octet-stream'
+                    },
+                    body: file
+                });
+
+                if(res.ok) successCount++;
+                else {
+                    console.error('Upload failed for', file.name, await res.text());
+                }
+            }
+
+            status.innerHTML = `<span style="color:green">✔ הסתיים! ${successCount} קבצים הועלו. מרענן...</span>`;
+            setTimeout(() => location.reload(), 2000);
+
+        } catch (e) {
+            status.innerHTML = `<span style="color:red">שגיאה קריטית: ${e.message}</span>`;
+        }
+    }
+
+    // --- שונות ---
+    function toggleAdminPanel() {
+        const panel = document.getElementById('admin-panel');
+        panel.style.display = panel.style.display === 'block' ? 'none' : 'block';
+    }
+    
     function toggleFolder(header) {
         const content = header.nextElementSibling;
         const arrow = header.querySelector('.arrow');
@@ -244,24 +456,6 @@
         }
     }
 
-    function createPlayer(file, container) {
-        const name = file.name.replace(/\.[^/.]+$/, "").replace(/_/g, " ");
-        const div = document.createElement('div');
-        div.className = 'file-card file-item';
-        div.setAttribute('data-search-text', name);
-        div.innerHTML = `
-            <span class="file-title">${name}</span>
-            <audio controls preload="none"><source src="${file.browser_download_url}" type="audio/mpeg"></audio>
-            <div class="controls">
-                <button class="btn active" onclick="setSpeed(this, 1)">x1</button>
-                <button class="btn" onclick="setSpeed(this, 1.5)">x1.5</button>
-                <button class="btn" onclick="setSpeed(this, 2)">x2</button>
-                <a href="${file.browser_download_url}" download class="download-link"><i class="fas fa-download"></i> הורדה</a>
-            </div>
-        `;
-        container.appendChild(div);
-    }
-
     function setSpeed(btn, rate) {
         const audio = btn.closest('.file-card').querySelector('audio');
         audio.playbackRate = rate;
@@ -271,148 +465,32 @@
 
     function searchHandler() {
         const query = document.getElementById('searchInput').value.toLowerCase();
-        const allFiles = document.querySelectorAll('.file-item');
-        const allFolders = document.querySelectorAll('.folder-item');
-
-        if (!query) {
-            allFiles.forEach(el => el.classList.remove('hidden-by-search'));
-            allFolders.forEach(el => {
-                el.classList.remove('hidden-by-search');
-                el.querySelector('.folder-content').classList.remove('show');
-            });
-            return;
-        }
-
-        allFiles.forEach(el => el.classList.add('hidden-by-search'));
-        allFolders.forEach(el => el.classList.add('hidden-by-search'));
-
-        allFiles.forEach(fileDiv => {
-            const text = fileDiv.getAttribute('data-search-text').toLowerCase();
-            if (text.includes(query)) {
-                fileDiv.classList.remove('hidden-by-search');
-                revealParents(fileDiv);
-            }
-        });
-
-        allFolders.forEach(folderDiv => {
-            const text = folderDiv.getAttribute('data-search-text').toLowerCase();
-            if (text.includes(query)) {
-                folderDiv.classList.remove('hidden-by-search');
-                revealParents(folderDiv);
-                const content = folderDiv.querySelector('.folder-content');
-                if(content) {
-                    content.classList.add('show');
-                    const children = content.querySelectorAll('.file-item, .folder-item');
-                    children.forEach(c => c.classList.remove('hidden-by-search'));
-                }
-            }
-        });
-    }
-
-    function revealParents(element) {
-        let parent = element.parentElement;
-        while (parent && parent.id !== 'library-root') {
-            if (parent.classList.contains('folder-content')) {
-                parent.classList.add('show');
-                const header = parent.previousElementSibling;
-                if(header) header.querySelector('.arrow').className = 'fas fa-chevron-up arrow';
-            }
-            if (parent.classList.contains('folder-item')) parent.classList.remove('hidden-by-search');
-            parent = parent.parentElement;
-        }
-    }
-
-    function toggleAdminPanel() {
-        const panel = document.getElementById('admin-panel');
-        panel.style.display = panel.style.display === 'block' ? 'none' : 'block';
-    }
-
-    // --- לוגיקת העלאה מרובה (Batch Upload) ---
-    async function startBatchUpload() {
-        const token = document.getElementById('github-token').value.trim();
-        const folderName = document.getElementById('upload-folder').value.trim();
-        const fileInput = document.getElementById('upload-files');
-        const status = document.getElementById('status-msg');
-        const progressBar = document.getElementById('upload-progress-bar');
-        const progressContainer = document.getElementById('upload-progress-container');
-
-        if (!token || !folderName || fileInput.files.length === 0) {
-            alert('נא למלא את כל השדות ולבחור לפחות קובץ אחד.');
-            return;
-        }
-
-        localStorage.setItem('gh_token', token);
-        const files = Array.from(fileInput.files);
+        const items = document.querySelectorAll('.file-item, .folder-item');
         
-        // איפוס תצוגה
-        progressContainer.style.display = 'block';
-        progressBar.style.width = '0%';
-        status.innerHTML = '<span style="color:blue">מתחיל בתהליך...</span>';
+        if (!query) {
+            items.forEach(el => el.classList.remove('hidden-by-search'));
+            document.querySelectorAll('.folder-content').forEach(c => c.classList.remove('show'));
+            return;
+        }
+        items.forEach(el => el.classList.add('hidden-by-search'));
 
-        try {
-            // 1. קבלת או יצירת התיקייה (Release) - עושים את זה פעם אחת
-            let release = allReleases.find(r => r.name === folderName);
-            
-            if (!release) {
-                status.innerHTML = 'יוצר תיקייה חדשה בשרת...';
-                const tagName = 'v' + Date.now(); 
-                const createRes = await fetch(`https://api.github.com/repos/${USERNAME}/${REPO_NAME}/releases`, {
-                    method: 'POST',
-                    headers: { 'Authorization': `token ${token}`, 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ tag_name: tagName, name: folderName, body: 'Bulk upload via website' })
-                });
-
-                if (!createRes.ok) throw new Error('נכשל ביצירת תיקייה. בדוק הרשאות.');
-                release = await createRes.json();
-            }
-
-            // 2. לולאה על כל הקבצים
-            let successCount = 0;
-            const uploadBaseUrl = `https://uploads.github.com/repos/${USERNAME}/${REPO_NAME}/releases/${release.id}/assets`;
-
-            for (let i = 0; i < files.length; i++) {
-                const file = files[i];
-                const progress = ((i) / files.length) * 100;
-                progressBar.style.width = `${progress}%`;
-                status.innerHTML = `מעלה קובץ ${i + 1} מתוך ${files.length}: <b>${file.name}</b>...`;
-
-                try {
-                    // העלאה ספציפית לקובץ הנוכחי
-                    const uploadUrl = `${uploadBaseUrl}?name=${encodeURIComponent(file.name)}`;
-                    const uploadRes = await fetch(uploadUrl, {
-                        method: 'POST',
-                        headers: {
-                            'Authorization': `token ${token}`,
-                            'Content-Type': file.type || 'application/octet-stream'
-                        },
-                        body: file
-                    });
-
-                    if (!uploadRes.ok) {
-                        // אם הקובץ כבר קיים, גיטהאב יחזיר שגיאה. נדלג ונמשיך.
-                        const errData = await uploadRes.json();
-                        if(errData.errors && errData.errors[0].code === 'already_exists') {
-                            console.warn(`File ${file.name} already exists. Skipping.`);
-                        } else {
-                            throw new Error(`שגיאה בקובץ ${file.name}`);
-                        }
-                    }
-                    successCount++;
-
-                } catch (fileErr) {
-                    console.error(fileErr);
-                    // לא עוצרים את הכל, רק מציינים שגיאה בקונסול וממשיכים
+        document.querySelectorAll('.file-item').forEach(file => {
+            if (file.getAttribute('data-search').toLowerCase().includes(query)) {
+                file.classList.remove('hidden-by-search');
+                let p = file.parentElement;
+                while(p.id !== 'library-root') {
+                    if(p.classList.contains('folder-content')) p.classList.add('show');
+                    if(p.classList.contains('folder-item')) p.classList.remove('hidden-by-search');
+                    p = p.parentElement;
                 }
             }
-
-            progressBar.style.width = '100%';
-            status.innerHTML = `<span style="color:green">✔ הסתיים! הועלו ${successCount} מתוך ${files.length} קבצים. מרענן...</span>`;
-            setTimeout(() => location.reload(), 2000);
-
-        } catch (err) {
-            console.error(err);
-            status.innerHTML = `<span style="color:red">שגיאה כללית: ${err.message}</span>`;
-        }
+        });
+        
+        document.querySelectorAll('.folder-item').forEach(folder => {
+            if (folder.getAttribute('data-search').toLowerCase().includes(query)) {
+                folder.classList.remove('hidden-by-search');
+            }
+        });
     }
 </script>
 
