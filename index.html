@@ -75,10 +75,13 @@
         .primary-btn { background: var(--primary-color); color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; }
         .primary-btn:hover { opacity: 0.9; }
         
-        /* Loading & Status */
+        /* סטטוס העלאה */
+        #upload-progress-container { display: none; margin-top: 15px; background: #eee; border-radius: 10px; height: 10px; overflow: hidden; }
+        #upload-progress-bar { height: 100%; background: #4caf50; width: 0%; transition: width 0.3s; }
         #status-msg { margin-top: 10px; font-size: 0.9em; font-weight: bold; }
+
+        /* Loading & Search Helpers */
         .hidden-by-search { display: none !important; }
-        .highlight { background-color: #fff3cd; }
 
         @media (max-width: 600px) {
             h1 { font-size: 1.8em; }
@@ -107,10 +110,9 @@
 
     <!-- פאנל ניהול (מוסתר) -->
     <div id="admin-panel">
-        <h3><i class="fas fa-cloud-upload-alt"></i> העלאת שיעור חדש</h3>
+        <h3><i class="fas fa-cloud-upload-alt"></i> העלאת שיעורים (Bulk Upload)</h3>
         <p style="font-size:0.8em; color:#666; margin-bottom:15px">
-            שים לב: שם התיקייה חייב להיות ייחודי. אם התיקייה קיימת, הקובץ יתווסף אליה (במגבלות ה-API).
-            <br>גודל מקסימלי מומלץ להעלאה כאן: 25MB.
+            ניתן לבחור מספר קבצים ביחד. הם יעלו בזה אחר זה לתיקייה שתבחר.
         </p>
         
         <div class="admin-row">
@@ -120,8 +122,13 @@
             <input type="text" id="upload-folder" class="admin-input" placeholder="שם התיקייה (למשל: סוכות - תשפד)">
         </div>
         <div class="admin-row">
-            <input type="file" id="upload-file" class="admin-input" accept=".mp3,.m4a,.wav">
-            <button class="primary-btn" onclick="startUpload()">העלה קובץ</button>
+            <!-- השינוי: הוספת multiple -->
+            <input type="file" id="upload-files" class="admin-input" multiple accept=".mp3,.m4a,.wav">
+            <button class="primary-btn" onclick="startBatchUpload()">התחל העלאה</button>
+        </div>
+        
+        <div id="upload-progress-container">
+            <div id="upload-progress-bar"></div>
         </div>
         <div id="status-msg"></div>
     </div>
@@ -135,17 +142,14 @@
 
 <script>
     // --- הגדרות ---
-    // שנה לשם המשתמש והמאגר שלך
     const USERNAME = 'dovi770'; 
     const REPO_NAME = 'meluket';    
     // -------------
 
     let allReleases = [];
 
-    // טעינת הדף
     document.addEventListener('DOMContentLoaded', () => {
         loadData();
-        // בדיקה אם יש טוקן שמור
         const savedToken = localStorage.getItem('gh_token');
         if(savedToken) document.getElementById('github-token').value = savedToken;
     });
@@ -174,7 +178,7 @@
             parts.forEach((part, index) => {
                 if (!current[part]) {
                     if (index === parts.length - 1) {
-                        current[part] = { type: 'files', data: release.assets, id: release.id, tagName: release.tag_name };
+                        current[part] = { type: 'files', data: release.assets, id: release.id };
                     } else {
                         current[part] = { type: 'folder', children: {} };
                     }
@@ -191,12 +195,10 @@
         
         for (const key of sortedKeys) {
             const value = node[key];
-            
             if (value.type === 'folder') {
                 const folderDiv = document.createElement('div');
                 folderDiv.className = 'folder-box folder-item';
-                folderDiv.setAttribute('data-search-text', key); // לחיפוש
-                
+                folderDiv.setAttribute('data-search-text', key);
                 folderDiv.innerHTML = `
                     <div class="folder-header" onclick="toggleFolder(this)">
                         <div><i class="far fa-folder" style="color:#fbc02d; margin-left:8px"></i>${key}</div>
@@ -207,11 +209,9 @@
                 renderTree(value.children, folderDiv.querySelector('.folder-content'));
                 container.appendChild(folderDiv);
             } else {
-                // תיקיית קצה (Release)
                 const releaseDiv = document.createElement('div');
                 releaseDiv.className = 'folder-box folder-item release-item';
                 releaseDiv.setAttribute('data-search-text', key);
-                
                 releaseDiv.innerHTML = `
                     <div class="folder-header" style="background:#f8faff" onclick="toggleFolder(this)">
                         <div><i class="fas fa-compact-disc" style="color:#1a237e; margin-left:8px"></i>${key} (${value.data.length})</div>
@@ -219,7 +219,6 @@
                     </div>
                     <div class="folder-content"></div>
                 `;
-                
                 const contentDiv = releaseDiv.querySelector('.folder-content');
                 let hasAudio = false;
                 value.data.forEach(file => {
@@ -228,7 +227,6 @@
                         hasAudio = true;
                     }
                 });
-                
                 if(hasAudio) container.appendChild(releaseDiv);
             }
         }
@@ -246,18 +244,14 @@
         }
     }
 
-    // 4. נגן
     function createPlayer(file, container) {
         const name = file.name.replace(/\.[^/.]+$/, "").replace(/_/g, " ");
         const div = document.createElement('div');
         div.className = 'file-card file-item';
         div.setAttribute('data-search-text', name);
-        
         div.innerHTML = `
             <span class="file-title">${name}</span>
-            <audio controls preload="none">
-                <source src="${file.browser_download_url}" type="audio/mpeg">
-            </audio>
+            <audio controls preload="none"><source src="${file.browser_download_url}" type="audio/mpeg"></audio>
             <div class="controls">
                 <button class="btn active" onclick="setSpeed(this, 1)">x1</button>
                 <button class="btn" onclick="setSpeed(this, 1.5)">x1.5</button>
@@ -275,47 +269,36 @@
         btn.classList.add('active');
     }
 
-    // 5. לוגיקת חיפוש חכמה
     function searchHandler() {
         const query = document.getElementById('searchInput').value.toLowerCase();
         const allFiles = document.querySelectorAll('.file-item');
         const allFolders = document.querySelectorAll('.folder-item');
 
-        // איפוס: הסתר את כולם
         if (!query) {
             allFiles.forEach(el => el.classList.remove('hidden-by-search'));
             allFolders.forEach(el => {
                 el.classList.remove('hidden-by-search');
-                el.querySelector('.folder-content').classList.remove('show'); // סגור הכל
+                el.querySelector('.folder-content').classList.remove('show');
             });
             return;
         }
 
-        // שלב 1: הסתר הכל
         allFiles.forEach(el => el.classList.add('hidden-by-search'));
         allFolders.forEach(el => el.classList.add('hidden-by-search'));
 
-        // שלב 2: מצא התאמות וחשוף הורים
-        let hasResults = false;
-        
-        // חיפוש בקבצים
         allFiles.forEach(fileDiv => {
             const text = fileDiv.getAttribute('data-search-text').toLowerCase();
             if (text.includes(query)) {
-                hasResults = true;
                 fileDiv.classList.remove('hidden-by-search');
                 revealParents(fileDiv);
             }
         });
 
-        // חיפוש בשמות תיקיות (אם השם של התיקייה תואם - הצג אותה ואת כל תוכנה)
         allFolders.forEach(folderDiv => {
             const text = folderDiv.getAttribute('data-search-text').toLowerCase();
             if (text.includes(query)) {
-                hasResults = true;
                 folderDiv.classList.remove('hidden-by-search');
                 revealParents(folderDiv);
-                // אופציה: לפתוח את התיקייה הזו ולהראות את כל הקבצים שבתוכה
                 const content = folderDiv.querySelector('.folder-content');
                 if(content) {
                     content.classList.add('show');
@@ -326,102 +309,109 @@
         });
     }
 
-    // פונקציה רקורסיבית לחשיפת התיקיות שמעל הקובץ
     function revealParents(element) {
         let parent = element.parentElement;
         while (parent && parent.id !== 'library-root') {
             if (parent.classList.contains('folder-content')) {
-                parent.classList.add('show'); // פתח את התיקייה
-                // שנה את האייקון
+                parent.classList.add('show');
                 const header = parent.previousElementSibling;
-                if(header) {
-                    const arrow = header.querySelector('.arrow');
-                    if(arrow) arrow.className = 'fas fa-chevron-up arrow';
-                }
+                if(header) header.querySelector('.arrow').className = 'fas fa-chevron-up arrow';
             }
-            if (parent.classList.contains('folder-item')) {
-                parent.classList.remove('hidden-by-search'); // הצג את התיקייה עצמה
-            }
+            if (parent.classList.contains('folder-item')) parent.classList.remove('hidden-by-search');
             parent = parent.parentElement;
         }
     }
 
-    // 6. לוגיקת העלאה (Admin)
     function toggleAdminPanel() {
         const panel = document.getElementById('admin-panel');
         panel.style.display = panel.style.display === 'block' ? 'none' : 'block';
     }
 
-    async function startUpload() {
+    // --- לוגיקת העלאה מרובה (Batch Upload) ---
+    async function startBatchUpload() {
         const token = document.getElementById('github-token').value.trim();
         const folderName = document.getElementById('upload-folder').value.trim();
-        const fileInput = document.getElementById('upload-file');
+        const fileInput = document.getElementById('upload-files');
         const status = document.getElementById('status-msg');
+        const progressBar = document.getElementById('upload-progress-bar');
+        const progressContainer = document.getElementById('upload-progress-container');
 
-        if (!token || !folderName || !fileInput.files[0]) {
-            alert('נא למלא את כל השדות: טוקן, שם תיקייה וקובץ.');
+        if (!token || !folderName || fileInput.files.length === 0) {
+            alert('נא למלא את כל השדות ולבחור לפחות קובץ אחד.');
             return;
         }
 
-        // שמירת טוקן לעתיד
         localStorage.setItem('gh_token', token);
+        const files = Array.from(fileInput.files);
         
-        const file = fileInput.files[0];
-        status.innerHTML = '<span style="color:blue">מתחיל העלאה... נא להמתין ולא לסגור.</span>';
+        // איפוס תצוגה
+        progressContainer.style.display = 'block';
+        progressBar.style.width = '0%';
+        status.innerHTML = '<span style="color:blue">מתחיל בתהליך...</span>';
 
         try {
-            // שלב 1: בדיקה אם קיים Release בשם הזה, אם לא - צור אותו
+            // 1. קבלת או יצירת התיקייה (Release) - עושים את זה פעם אחת
             let release = allReleases.find(r => r.name === folderName);
             
             if (!release) {
-                status.innerHTML = 'יוצר תיקייה (Release) חדשה בגיטהאב...';
-                // יצירת תגית נקייה (ללא רווחים)
+                status.innerHTML = 'יוצר תיקייה חדשה בשרת...';
                 const tagName = 'v' + Date.now(); 
-                
                 const createRes = await fetch(`https://api.github.com/repos/${USERNAME}/${REPO_NAME}/releases`, {
                     method: 'POST',
-                    headers: {
-                        'Authorization': `token ${token}`,
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        tag_name: tagName,
-                        name: folderName,
-                        body: 'הועלה דרך האתר'
-                    })
+                    headers: { 'Authorization': `token ${token}`, 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ tag_name: tagName, name: folderName, body: 'Bulk upload via website' })
                 });
 
-                if (!createRes.ok) throw new Error('נכשל ביצירת תיקייה. בדוק הרשאות טוקן.');
+                if (!createRes.ok) throw new Error('נכשל ביצירת תיקייה. בדוק הרשאות.');
                 release = await createRes.json();
             }
 
-            // שלב 2: העלאת הקובץ (Asset)
-            status.innerHTML = `מעלה את הקובץ: ${file.name}... (זה עלול לקחת זמן)`;
-            
-            // כתובת העלאה מיוחדת של גיטהאב
-            // ה-URL נראה כך: https://uploads.github.com/repos/USER/REPO/releases/ID/assets?name=FILENAME
-            const uploadUrl = `https://uploads.github.com/repos/${USERNAME}/${REPO_NAME}/releases/${release.id}/assets?name=${encodeURIComponent(file.name)}`;
+            // 2. לולאה על כל הקבצים
+            let successCount = 0;
+            const uploadBaseUrl = `https://uploads.github.com/repos/${USERNAME}/${REPO_NAME}/releases/${release.id}/assets`;
 
-            const uploadRes = await fetch(uploadUrl, {
-                method: 'POST',
-                headers: {
-                    'Authorization': `token ${token}`,
-                    'Content-Type': file.type || 'application/octet-stream'
-                },
-                body: file // שליחת הקובץ הבינארי ישירות
-            });
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                const progress = ((i) / files.length) * 100;
+                progressBar.style.width = `${progress}%`;
+                status.innerHTML = `מעלה קובץ ${i + 1} מתוך ${files.length}: <b>${file.name}</b>...`;
 
-            if (!uploadRes.ok) {
-                const errText = await uploadRes.text();
-                throw new Error('שגיאה בהעלאה: ' + errText);
+                try {
+                    // העלאה ספציפית לקובץ הנוכחי
+                    const uploadUrl = `${uploadBaseUrl}?name=${encodeURIComponent(file.name)}`;
+                    const uploadRes = await fetch(uploadUrl, {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': `token ${token}`,
+                            'Content-Type': file.type || 'application/octet-stream'
+                        },
+                        body: file
+                    });
+
+                    if (!uploadRes.ok) {
+                        // אם הקובץ כבר קיים, גיטהאב יחזיר שגיאה. נדלג ונמשיך.
+                        const errData = await uploadRes.json();
+                        if(errData.errors && errData.errors[0].code === 'already_exists') {
+                            console.warn(`File ${file.name} already exists. Skipping.`);
+                        } else {
+                            throw new Error(`שגיאה בקובץ ${file.name}`);
+                        }
+                    }
+                    successCount++;
+
+                } catch (fileErr) {
+                    console.error(fileErr);
+                    // לא עוצרים את הכל, רק מציינים שגיאה בקונסול וממשיכים
+                }
             }
 
-            status.innerHTML = '<span style="color:green">✔ הקובץ הועלה בהצלחה! מרענן...</span>';
+            progressBar.style.width = '100%';
+            status.innerHTML = `<span style="color:green">✔ הסתיים! הועלו ${successCount} מתוך ${files.length} קבצים. מרענן...</span>`;
             setTimeout(() => location.reload(), 2000);
 
         } catch (err) {
             console.error(err);
-            status.innerHTML = `<span style="color:red">שגיאה: ${err.message}</span>`;
+            status.innerHTML = `<span style="color:red">שגיאה כללית: ${err.message}</span>`;
         }
     }
 </script>
