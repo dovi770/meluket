@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>כל השיעורים - אור הקו</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans+Hebrew:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="main-header">
+        <div class="container">
+            <h1 class="logo"><a href="/">אור הקו</a></h1>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="/">דף הבית</a></li>
+                    <li><a href="/lessons.html">כל השיעורים</a></li>
+                    <li><a href="/rabbis.html">רבנים</a></li>
+                    <li><a href="/topics.html">נושאים</a></li>
+                    <li><a href="/about.html">אודות</a></li>
+                    <li><a href="/contact.html">צור קשר</a></li>
+                </ul>
+            </nav>
+            <div class="search-bar">
+                <input type="search" placeholder="חיפוש שיעורים...">
+                <button type="submit">חפש</button>
+            </div>
+            <button class="menu-toggle" aria-label="פתח תפריט ניווט">&#9776;</button>
+        </div>
+    </header>
+
+    <main class="main-content container">
+        <section class="page-header">
+            <h2>כל השיעורים</h2>
+            <p>רשימה מלאה של שיעורי חסידות מכל הזמנים והרבנים.</p>
+        </section>
+
+        <section class="filters-sort-section">
+            <div class="filters-container">
+                <label for="rabbi-filter">סנן לפי רב:</label>
+                <select id="rabbi-filter">
+                    <option value="">כל הרבנים</option>
+                    <option value="rabbi1">הרב לוי יצחק גרין</option>
+                    <option value="rabbi2">הרב מנחם מענדל כהן</option>
+                    <!-- אפשרויות רבנים דינמיות ממסד נתונים -->
+                </select>
+
+                <label for="topic-filter">סנן לפי נושא:</label>
+                <select id="topic-filter">
+                    <option value="">כל הנושאים</option>
+                    <option value="parsha">פרשת שבוע</option>
+                    <option value="chagim">חגים ומועדים</option>
+                    <option value="tanya">תניא</option>
+                    <!-- אפשרויות נושאים דינמיות ממסד נתונים -->
+                </select>
+
+                <label for="date-filter">סנן לפי תאריך:</label>
+                <select id="date-filter">
+                    <option value="">הכל</option>
+                    <option value="last_week">שבוע אחרון</option>
+                    <option value="last_month">חודש אחרון</option>
+                    <option value="last_year">שנה אחרונה</option>
+                </select>
+            </div>
+
+            <div class="sort-container">
+                <label for="sort-by">מיין לפי:</label>
+                <select id="sort-by">
+                    <option value="newest">החדש ביותר</option>
+                    <option value="popular">הפופולרי ביותר</option>
+                    <option value="length">אורך שיעור</option>
+                </select>
+            </div>
+        </section>
+
+        <section class="lesson-results">
+            <div class="lesson-grid">
+                <!-- שיעור לדוגמה 1 -->
+                <article class="lesson-card">
+                    <img src="images/lesson-thumbnail-2.jpg" alt="תמונת שיעור">
+                    <h3><a href="/lesson-single.html">עומק המצוות: בין פשט לסוד</a></h3>
+                    <p class="lesson-meta">הרב לוי יצחק גרין | י"ז שבט תשפ"ד</p>
+                    <div class="audio-player-mini">
+                        <audio controls src="audio/lesson2.mp3">
+                            הדפדפן שלך אינו תומך בנגן האודיו.
+                        </audio>
+                    </div>
+                    <a href="/lesson-single.html" class="button button-small">לפרטי השיעור</a>
+                </article>
+
+                <!-- שיעור לדוגמה 2 -->
+                <article class="lesson-card">
+                    <img src="images/lesson-thumbnail-3.jpg" alt="תמונת שיעור">
+                    <h3><a href="/lesson-single.html">חשיבות התפילה בחסידות</a></h3>
+                    <p class="lesson-meta">הרב מנחם מענדל כהן | א' ניסן תשפ"ד</p>
+                    <div class="audio-player-mini">
+                        <audio controls src="audio/lesson3.mp3">
+                            הדפדפן שלך אינו תומך בנגן האודיו.
+                        </audio>
+                    </div>
+                    <a href="/lesson-single.html" class="button button-small">לפרטי השיעור</a>
+                </article>
+
+                <!-- עוד שיעורים... אלו ייטענו דינמית בפיתוח מלא -->
+            </div>
+
+            <div class="pagination">
+                <a href="#" class="page-link">&laquo; קודם</a>
+                <a href="#" class="page-link active">1</a>
+                <a href="#" class="page-link">2</a>
+                <a href="#" class="page-link">3</a>
+                <a href="#" class="page-link">הבא &raquo;</a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-columns">
+                <div class="footer-col">
+                    <h3>אודות אור הקו</h3>
+                    <p>פלטפורמה להאזנה לשיעורים מעמיקים בחסידות, נגישה לכל אחד ובכל מקום.</p>
+                </div>
+                <div class="footer-col">
+                    <h3>קישורים מהירים</h3>
+                    <ul>
+                        <li><a href="/about.html">מי אנחנו</a></li>
+                        <li><a href="/privacy.html">מדיניות פרטיות</a></li>
+                        <li><a href="/terms.html">תנאי שימוש</a></li>
+                        <li><a href="/accessibility.html">הצהרת נגישות</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>הישאר מעודכן</h3>
+                    <form class="newsletter-form">
+                        <input type="email" placeholder="הכנס כתובת מייל">
+                        <button type="submit">הירשם</button>
+                    </form>
+                    <div class="social-links">
+                        <a href="#" aria-label="פייסבוק"><img src="icons/facebook.svg" alt="פייסבוק"></a>
+                        <a href="#" aria-label="וואטסאפ"><img src="icons/whatsapp.svg" alt="וואטסאפ"></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 אור הקו. כל הזכויות שמורות.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // JavaScript לדף השיעורים - לוגיקת סינון ומיון תתבצע ב-JS או ב-Backend
+        document.addEventListener('DOMContentLoaded', () => {
+            const rabbiFilter = document.getElementById('rabbi-filter');
+            const topicFilter = document.getElementById('topic-filter');
+            const dateFilter = document.getElementById('date-filter');
+            const sortBy = document.getElementById('sort-by');
+            const lessonGrid = document.querySelector('.lesson-results .lesson-grid');
+
+            function applyFiltersAndSort() {
+                // לוגיקה לסינון ומיון השיעורים
+                // בפרויקט אמיתי, זה יכלול שליחת בקשה לשרת
+                // וקבלת רשימת שיעורים מעודכנת.
+                const selectedRabbi = rabbiFilter.value;
+                const selectedTopic = topicFilter.value;
+                const selectedDate = dateFilter.value;
+                const selectedSort = sortBy.value;
+
+                console.log(`Filtering by Rabbi: ${selectedRabbi}, Topic: ${selectedTopic}, Date: ${selectedDate}`);
+                console.log(`Sorting by: ${selectedSort}`);
+
+                // כאן יבוצע עדכון של ה-lessonGrid עם התוצאות החדשות
+                // לדוגמה: lessonGrid.innerHTML = '<!-- שיעורים מסוננים -->'
+            }
+
+            rabbiFilter.addEventListener('change', applyFiltersAndSort);
+            topicFilter.addEventListener('change', applyFiltersAndSort);
+            dateFilter.addEventListener('change', applyFiltersAndSort);
+            sortBy.addEventListener('change', applyFiltersAndSort);
+
+            // דוגמה: טעינת שיעורים נוספים בלחיצה על "הבא"
+            const paginationLinks = document.querySelectorAll('.pagination .page-link');
+            paginationLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    if (!link.classList.contains('active')) {
+                        console.log(`Loading page: ${link.textContent}`);
+                        // לוגיקה לטעינת דף חדש של שיעורים
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
