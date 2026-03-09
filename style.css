@@ -464,4 +464,675 @@ a:hover {
     .social-links {
         justify-content: center;
     }
+/* הוספה לקובץ style.css */
+
+/* סגנונות כלליים לכותרות דפים */
+.page-header {
+    text-align: center;
+    padding: 50px 0;
+    margin-bottom: 30px;
+    background-color: var(--primary-color);
+    color: var(--text-color-light);
+    border-radius: 8px;
+}
+
+.page-header h2 {
+    font-size: 3em;
+    margin-bottom: 10px;
+}
+
+.page-header p {
+    font-size: 1.2em;
+    opacity: 0.9;
+}
+
+/* דף כל השיעורים - סינון ומיון */
+.filters-sort-section {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+    background-color: var(--text-color-light);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.filters-container, .sort-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    align-items: center;
+}
+
+.filters-container label, .sort-container label {
+    font-weight: bold;
+    color: var(--text-color-dark);
+}
+
+.filters-container select, .sort-container select {
+    padding: 8px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    background-color: var(--bg-light);
+    cursor: pointer;
+    font-family: var(--font-hebrew);
+}
+
+.lesson-results .lesson-grid {
+    margin-bottom: 30px;
+}
+
+.pagination {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.page-link {
+    display: inline-block;
+    padding: 8px 15px;
+    margin: 0 5px;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    color: var(--primary-color);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.page-link:hover {
+    background-color: var(--primary-color);
+    color: var(--text-color-light);
+    text-decoration: none;
+}
+
+.page-link.active {
+    background-color: var(--primary-color);
+    color: var(--text-color-light);
+    border-color: var(--primary-color);
+    cursor: default;
+}
+
+/* דף שיעור בודד */
+.single-lesson-details {
+    background-color: var(--text-color-light);
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    margin-bottom: 40px;
+}
+
+.lesson-banner {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 25px;
+}
+
+.lesson-info-header {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.lesson-info-header h2 {
+    font-size: 2.8em;
+    margin-bottom: 10px;
+    color: var(--primary-color);
+}
+
+.lesson-info-header .lesson-meta {
+    font-size: 1.1em;
+    color: var(--secondary-color);
+    margin-bottom: 20px;
+}
+
+.share-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 25px;
+}
+
+.audio-player-full audio {
+    width: 100%;
+    background-color: var(--bg-light);
+    border-radius: 8px;
+    margin-bottom: 30px;
+}
+
+.lesson-description h3, .comments-section h2, .related-lessons h2 {
+    font-size: 1.8em;
+    margin-bottom: 20px;
+    color: var(--text-color-dark);
+    position: relative;
+    padding-bottom: 5px;
+}
+
+.lesson-description h3::after, .comments-section h2::after, .related-lessons h2::after {
+    content: '';
+    display: block;
+    width: 50px;
+    height: 3px;
+    background-color: var(--primary-color);
+    position: absolute;
+    right: 0;
+    bottom: 0;
+}
+
+.lesson-description p, .lesson-description ul {
+    font-size: 1.1em;
+    margin-bottom: 15px;
+    line-height: 1.8;
+}
+
+.lesson-description ul {
+    list-style-position: inside;
+    padding-right: 20px;
+}
+
+.lesson-transcript {
+    background-color: var(--bg-light);
+    border-right: 4px solid var(--accent-color);
+    padding: 20px;
+    border-radius: 5px;
+    margin-top: 20px;
+}
+
+.comments-section {
+    margin-top: 50px;
+    background-color: var(--text-color-light);
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+/* דף רבנים */
+.rabbis-list-full .rabbis-list {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 30px;
+}
+
+.rabbis-list-full .rabbi-card {
+    padding: 25px;
+    text-align: center;
+    transition: transform 0.2s ease-in-out;
+}
+
+.rabbis-list-full .rabbi-card:hover {
+    transform: translateY(-5px);
+}
+
+.rabbis-list-full .rabbi-card img {
+    width: 120px;
+    height: 120px;
+    margin-bottom: 15px;
+    border: 4px solid var(--primary-color);
+}
+
+.rabbis-list-full .rabbi-card h3 {
+    font-size: 1.5em;
+    margin-bottom: 5px;
+}
+
+.rabbis-list-full .rabbi-card p {
+    font-size: 1em;
+    margin-bottom: 15px;
+}
+
+/* דף פרופיל רב */
+.rabbi-profile-section {
+    background-color: var(--text-color-light);
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    margin-bottom: 40px;
+}
+
+.rabbi-header {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    margin-bottom: 30px;
+    flex-wrap: wrap; /* רספונסיביות */
+}
+
+.rabbi-large-img {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 5px solid var(--primary-color);
+    flex-shrink: 0;
+}
+
+.rabbi-header-info {
+    flex-grow: 1;
+    text-align: right; /* יישור לימין ב-RTL */
+}
+
+.rabbi-header-info h2 {
+    font-size: 3em;
+    color: var(--text-color-dark);
+    margin-bottom: 8px;
+}
+
+.rabbi-title {
+    font-size: 1.3em;
+    color: var(--secondary-color);
+    margin-bottom: 15px;
+}
+
+.rabbi-social {
+    display: flex;
+    gap: 15px;
+    justify-content: flex-end; /* יישור לימין */
+}
+
+.rabbi-social img {
+    width: 30px;
+    height: 30px;
+}
+
+.rabbi-bio h3, .rabbi-lessons h3 {
+    font-size: 2em;
+    margin-bottom: 20px;
+    color: var(--text-color-dark);
+    position: relative;
+    padding-bottom: 5px;
+}
+
+.rabbi-bio h3::after, .rabbi-lessons h3::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 3px;
+    background-color: var(--primary-color);
+    position: absolute;
+    right: 0;
+    bottom: 0;
+}
+
+.rabbi-bio p {
+    font-size: 1.1em;
+    line-height: 1.8;
+    margin-bottom: 15px;
+}
+
+.rabbi-lessons .lesson-grid {
+    margin-bottom: 30px;
+}
+
+/* דף נושאים */
+.topics-list .topic-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+}
+
+.topic-card {
+    display: block;
+    background-color: var(--text-color-light);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 25px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    color: var(--text-color-dark);
+}
+
+.topic-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+    text-decoration: none;
+}
+
+.topic-card h3 {
+    font-size: 1.8em;
+    margin-bottom: 10px;
+    color: var(--primary-color);
+}
+
+.topic-card p {
+    font-size: 1.1em;
+    color: var(--secondary-color);
+}
+
+/* דף אודות */
+.about-us-content {
+    background-color: var(--text-color-light);
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    margin-bottom: 40px;
+}
+
+.about-us-content h3 {
+    font-size: 2em;
+    margin-bottom: 20px;
+    color: var(--text-color-dark);
+    position: relative;
+    padding-bottom: 5px;
+}
+
+.about-us-content h3::after {
+    content: '';
+    display: block;
+    width: 50px;
+    height: 3px;
+    background-color: var(--primary-color);
+    position: absolute;
+    right: 0;
+    bottom: 0;
+}
+
+.about-us-content p {
+    font-size: 1.1em;
+    line-height: 1.8;
+    margin-bottom: 20px;
+}
+
+.team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 30px;
+    margin-top: 30px;
+    text-align: center;
+}
+
+.team-member {
+    background-color: var(--bg-light);
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.team-member img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 15px;
+    border: 3px solid var(--accent-color);
+}
+
+.team-member h4 {
+    font-size: 1.5em;
+    margin-bottom: 5px;
+    color: var(--primary-color);
+}
+
+.team-member p {
+    font-size: 1em;
+    color: var(--secondary-color);
+}
+
+/* דף צור קשר */
+.contact-section {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+    background-color: var(--text-color-light);
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    margin-bottom: 40px;
+}
+
+.contact-info, .contact-form-container {
+    flex: 1;
+    min-width: 300px;
+}
+
+.contact-info h3, .contact-form-container h3 {
+    font-size: 2em;
+    margin-bottom: 20px;
+    color: var(--text-color-dark);
+    position: relative;
+    padding-bottom: 5px;
+}
+
+.contact-info h3::after, .contact-form-container h3::after {
+    content: '';
+    display: block;
+    width: 50px;
+    height: 3px;
+    background-color: var(--primary-color);
+    position: absolute;
+    right: 0;
+    bottom: 0;
+}
+
+.contact-info p {
+    font-size: 1.1em;
+    line-height: 1.8;
+    margin-bottom: 15px;
+}
+
+.contact-info .social-links {
+    justify-content: flex-start; /* יישור לימין עבור RTL */
+    margin-top: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    font-family: var(--font-hebrew);
+    font-size: 1em;
+    text-align: right; /* יישור לימין ב-RTL */
+}
+
+.form-group textarea {
+    resize: vertical;
+}
+
+.contact-form .button {
+    width: auto;
+    display: block; /* כפתור תופס את כל הרוחב */
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* דף תרומה */
+.donation-section {
+    background-color: var(--text-color-light);
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    margin-bottom: 40px;
+    text-align: center; /* יישור מרכזי לתוכן */
+}
+
+.donation-section p {
+    font-size: 1.1em;
+    line-height: 1.8;
+    margin-bottom: 20px;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.donation-options {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.donation-card {
+    background-color: var(--bg-light);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 25px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    text-align: center;
+}
+
+.donation-card h4 {
+    font-size: 1.6em;
+    color: var(--primary-color);
+    margin-bottom: 15px;
+}
+
+.donation-card p {
+    font-size: 1em;
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+.donation-card ul {
+    list-style: none;
+    margin-bottom: 20px;
+    font-size: 1em;
+    text-align: center; /* ליישר גם את הרשימה במרכז */
+}
+
+.donation-card li {
+    margin-bottom: 5px;
+}
+
+.donation-card .button {
+    margin-top: auto; /* לדחוף את הכפתור לתחתית הכרטיס */
+    display: inline-block; /* כדי לאפשר יצירת רווחים בין כפתורים */
+}
+
+.donation-note {
+    font-size: 0.9em;
+    color: var(--secondary-color);
+    margin-top: 40px;
+}
+
+
+/* דף הצהרת נגישות / מדיניות פרטיות / תנאי שימוש */
+.accessibility-statement-content, .privacy-policy-content, .terms-of-service-content {
+    background-color: var(--text-color-light);
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    margin-bottom: 40px;
+}
+
+.accessibility-statement-content h3, .privacy-policy-content h3, .terms-of-service-content h3 {
+    font-size: 2em;
+    margin-bottom: 20px;
+    color: var(--text-color-dark);
+    position: relative;
+    padding-bottom: 5px;
+}
+
+.accessibility-statement-content h3::after, .privacy-policy-content h3::after, .terms-of-service-content h3::after {
+    content: '';
+    display: block;
+    width: 50px;
+    height: 3px;
+    background-color: var(--primary-color);
+    position: absolute;
+    right: 0;
+    bottom: 0;
+}
+
+.accessibility-statement-content p, .privacy-policy-content p, .terms-of-service-content p {
+    font-size: 1.1em;
+    line-height: 1.8;
+    margin-bottom: 15px;
+}
+
+.accessibility-statement-content ul, .privacy-policy-content ul, .terms-of-service-content ul {
+    list-style-type: disc; /* כדורים */
+    list-style-position: inside;
+    padding-right: 20px;
+    margin-bottom: 15px;
+    font-size: 1.1em;
+    line-height: 1.8;
+}
+
+.accessibility-statement-content li, .privacy-policy-content li, .terms-of-service-content li {
+    margin-bottom: 8px;
+}
+
+/* רספונסיביות נוספת */
+@media (max-width: 768px) {
+    .page-header h2 {
+        font-size: 2em;
+    }
+
+    .page-header p {
+        font-size: 1em;
+    }
+
+    .filters-sort-section {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .filters-container, .sort-container {
+        width: 100%;
+        justify-content: flex-start;
+        margin-bottom: 15px;
+    }
+
+    .filters-container select, .sort-container select {
+        flex-grow: 1; /* יתפוס את כל הרוחב */
+    }
+
+    .lesson-info-header h2 {
+        font-size: 2em;
+    }
+
+    .lesson-info-header .lesson-meta {
+        font-size: 0.9em;
+    }
+
+    .share-buttons {
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .share-buttons .button {
+        flex-grow: 1;
+        min-width: 100px;
+    }
+
+    .rabbi-header {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .rabbi-large-img {
+        margin-bottom: 20px;
+    }
+
+    .rabbi-header-info {
+        text-align: center;
+    }
+
+    .rabbi-social {
+        justify-content: center;
+    }
+
+    .contact-section {
+        flex-direction: column;
+    }
+
+    .contact-form .button {
+        width: 100%;
+    }
+
+    .donation-options {
+        grid-template-columns: 1fr;
+    }
 }
