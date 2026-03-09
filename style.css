@@ -1,0 +1,467 @@
+/* כללי בסיס */
+:root {
+    --primary-color: #007BFF; /* כחול */
+    --secondary-color: #6c757d; /* אפור */
+    --accent-color: #28a745; /* ירוק */
+    --bg-light: #f8f9fa;
+    --bg-dark: #343a40;
+    --text-color-dark: #212529;
+    --text-color-light: #ffffff;
+    --border-color: #dee2e6;
+    --font-hebrew: 'Open Sans Hebrew', sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--font-hebrew);
+    line-height: 1.6;
+    color: var(--text-color-dark);
+    background-color: var(--bg-light);
+    direction: rtl; /* כיוון קריאה מימין לשמאל */
+    text-align: right; /* יישור טקסט לימין */
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px 0;
+}
+
+a {
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.button {
+    display: inline-block;
+    background-color: var(--primary-color);
+    color: var(--text-color-light);
+    padding: 10px 20px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    border: none;
+    cursor: pointer;
+}
+
+.button:hover {
+    background-color: #0056b3;
+    text-decoration: none;
+}
+
+.button-small {
+    padding: 7px 15px;
+    font-size: 0.9em;
+}
+
+/* כותרת עליונה (Header) */
+.main-header {
+    background-color: var(--bg-dark);
+    color: var(--text-color-light);
+    padding: 15px 0;
+    border-bottom: 3px solid var(--primary-color);
+}
+
+.main-header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap; /* לאפשר גלישה בשורות קטנות */
+}
+
+.logo {
+    margin: 0;
+    font-size: 2em;
+}
+
+.logo a {
+    color: var(--text-color-light);
+    text-decoration: none;
+}
+
+.main-nav ul {
+    list-style: none;
+    display: flex;
+    margin: 0;
+    padding: 0;
+}
+
+.main-nav li {
+    margin-right: 20px; /* מרווח בין פריטי התפריט */
+}
+
+.main-nav a {
+    color: var(--text-color-light);
+    font-weight: bold;
+    padding: 5px 0;
+    transition: color 0.3s ease;
+}
+
+.main-nav a:hover {
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+.search-bar {
+    display: flex;
+    align-items: center;
+}
+
+.search-bar input {
+    padding: 8px 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    margin-left: 10px; /* מרווח בין שדה החיפוש לכפתור */
+    text-align: right;
+}
+
+.search-bar button {
+    background-color: var(--accent-color);
+    color: var(--text-color-light);
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.search-bar button:hover {
+    background-color: #218838;
+}
+
+.menu-toggle {
+    display: none; /* נסתר בדסקטופ, יופיע במובייל */
+    background: none;
+    border: none;
+    color: var(--text-color-light);
+    font-size: 1.8em;
+    cursor: pointer;
+}
+
+/* Hero Section (קרוסלת שיעורים חדשים) */
+.hero-section {
+    position: relative;
+    height: 400px; /* גובה קבוע לדוגמה */
+    overflow: hidden;
+    margin-bottom: 40px;
+    border-radius: 8px;
+}
+
+.hero-carousel {
+    display: flex; /* לצרכי דוגמה - בקרוסלה אמיתית יהיה JS */
+    width: 100%;
+    height: 100%;
+}
+
+.carousel-item {
+    position: relative;
+    flex-shrink: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #ccc; /* צבע גיבוי */
+}
+
+.carousel-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(60%); /* להכהות את התמונה עבור טקסט קריא */
+}
+
+.item-overlay {
+    position: absolute;
+    top: 50%;
+    right: 50%; /* מיקום ימין-מרכז */
+    transform: translate(50%, -50%);
+    color: var(--text-color-light);
+    text-align: center;
+}
+
+.item-overlay h2 {
+    font-size: 2.5em;
+    margin-bottom: 10px;
+}
+
+.item-overlay p {
+    font-size: 1.2em;
+    margin-bottom: 20px;
+}
+
+/* רשימת שיעורים (Lesson Grid) */
+.latest-lessons, .featured-rabbis {
+    margin-bottom: 40px;
+}
+
+.latest-lessons h2, .featured-rabbis h2 {
+    font-size: 2em;
+    margin-bottom: 25px;
+    text-align: center;
+    position: relative;
+}
+
+.latest-lessons h2::after, .featured-rabbis h2::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 3px;
+    background-color: var(--primary-color);
+    margin: 10px auto 0;
+}
+
+.lesson-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+}
+
+.lesson-card {
+    background-color: var(--text-color-light);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    transition: transform 0.2s ease-in-out;
+    display: flex;
+    flex-direction: column;
+}
+
+.lesson-card:hover {
+    transform: translateY(-5px);
+}
+
+.lesson-card img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+}
+
+.lesson-card h3 {
+    font-size: 1.4em;
+    margin: 15px;
+    flex-grow: 1; /* יאפשר לכותרת לתפוס מקום ולשאר האלמנטים להישאר בתחתית */
+}
+
+.lesson-card h3 a {
+    color: var(--text-color-dark);
+}
+
+.lesson-card .lesson-meta {
+    font-size: 0.9em;
+    color: var(--secondary-color);
+    margin: 0 15px 10px;
+}
+
+.audio-player-mini {
+    padding: 0 15px 15px;
+}
+
+.audio-player-mini audio {
+    width: 100%;
+    background-color: var(--bg-light);
+    border-radius: 5px;
+}
+
+.lesson-card .button {
+    margin: 0 15px 15px;
+    align-self: flex-start; /* ליישר את הכפתור לשמאל */
+}
+
+
+/* רשימת רבנים (Rabbis List) */
+.rabbis-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 25px;
+    text-align: center;
+}
+
+.rabbi-card {
+    background-color: var(--text-color-light);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.rabbi-card img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 10px;
+    border: 3px solid var(--primary-color);
+}
+
+.rabbi-card h3 {
+    font-size: 1.2em;
+    margin-bottom: 5px;
+}
+
+.rabbi-card h3 a {
+    color: var(--text-color-dark);
+}
+
+.rabbi-card p {
+    font-size: 0.9em;
+    color: var(--secondary-color);
+}
+
+
+/* פוטר (Footer) */
+.main-footer {
+    background-color: var(--bg-dark);
+    color: var(--text-color-light);
+    padding: 40px 0 20px;
+    font-size: 0.9em;
+    border-top: 3px solid var(--primary-color);
+}
+
+.footer-columns {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    margin-bottom: 30px;
+    text-align: right;
+}
+
+.footer-col h3 {
+    color: var(--primary-color);
+    margin-bottom: 15px;
+    font-size: 1.2em;
+}
+
+.footer-col ul {
+    list-style: none;
+}
+
+.footer-col li {
+    margin-bottom: 8px;
+}
+
+.footer-col a {
+    color: var(--text-color-light);
+    transition: color 0.3s ease;
+}
+
+.footer-col a:hover {
+    color: var(--primary-color);
+}
+
+.newsletter-form {
+    display: flex;
+    margin-top: 15px;
+}
+
+.newsletter-form input {
+    flex-grow: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 5px 0 0 5px; /* פינות מעוגלות רק מצד ימין (RTL) */
+    text-align: right;
+}
+
+.newsletter-form button {
+    background-color: var(--accent-color);
+    color: var(--text-color-light);
+    border: none;
+    padding: 10px 15px;
+    border-radius: 0 5px 5px 0; /* פינות מעוגלות רק מצד שמאל (RTL) */
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.newsletter-form button:hover {
+    background-color: #218838;
+}
+
+.social-links {
+    margin-top: 20px;
+    display: flex;
+    gap: 15px;
+    justify-content: flex-end; /* ליישר לימין */
+}
+
+.social-links img {
+    width: 28px;
+    height: 28px;
+    filter: invert(100%); /* להפוך את צבעי האייקונים ללבן */
+}
+
+.footer-bottom {
+    text-align: center;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+/* רספונסיביות - מדיה קוורייס למסכים קטנים */
+@media (max-width: 768px) {
+    .main-header .container {
+        flex-direction: row; /* להשאיר את הלוגו וההמבורגר באותה שורה */
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .main-nav {
+        display: none; /* הסתר תפריט בדסקטופ */
+        width: 100%;
+        order: 3; /* מיקום אחרי הלוגו והחיפוש */
+    }
+
+    .main-nav.active {
+        display: block; /* הצג כשפעיל */
+    }
+
+    .main-nav ul {
+        flex-direction: column;
+        text-align: center;
+        margin-top: 15px;
+    }
+
+    .main-nav li {
+        margin: 10px 0;
+    }
+
+    .search-bar {
+        order: 2; /* מיקום החיפוש אחרי הלוגו ולפני ההמבורגר */
+        width: 60%; /* לתת לו קצת יותר מקום */
+        justify-content: flex-end; /* ליישר לימין */
+    }
+
+    .menu-toggle {
+        display: block; /* הצג במובייל */
+        order: 1; /* מיקום ההמבורגר משמאל */
+    }
+
+    .hero-section {
+        height: 300px;
+    }
+
+    .item-overlay h2 {
+        font-size: 1.8em;
+    }
+
+    .item-overlay p {
+        font-size: 1em;
+    }
+
+    .lesson-grid, .rabbis-list {
+        grid-template-columns: 1fr; /* עמודה אחת במובייל */
+    }
+
+    .footer-columns {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+    .social-links {
+        justify-content: center;
+    }
+}
