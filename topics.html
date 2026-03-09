@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>נושאים - אור הקו</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans+Hebrew:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="main-header">
+        <div class="container">
+            <h1 class="logo"><a href="/">אור הקו</a></h1>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="/">דף הבית</a></li>
+                    <li><a href="/lessons.html">כל השיעורים</a></li>
+                    <li><a href="/rabbis.html">רבנים</a></li>
+                    <li><a href="/topics.html">נושאים</a></li>
+                    <li><a href="/about.html">אודות</a></li>
+                    <li><a href="/contact.html">צור קשר</a></li>
+                </ul>
+            </nav>
+            <div class="search-bar">
+                <input type="search" placeholder="חיפוש שיעורים...">
+                <button type="submit">חפש</button>
+            </div>
+            <button class="menu-toggle" aria-label="פתח תפריט ניווט">&#9776;</button>
+        </div>
+    </header>
+
+    <main class="main-content container">
+        <section class="page-header">
+            <h2>נושאי הלימוד</h2>
+            <p>מצאו שיעורים לפי קטגוריות נושאים מרתקות.</p>
+        </section>
+
+        <section class="topics-list">
+            <div class="topic-grid">
+                <!-- נושא לדוגמה 1 -->
+                <a href="/lessons.html?topic=parsha" class="topic-card">
+                    <h3>פרשת שבוע</h3>
+                    <p>שיעורים והתבוננויות על פרשת השבוע.</p>
+                </a>
+
+                <!-- נושא לדוגמה 2 -->
+                <a href="/lessons.html?topic=chagim" class="topic-card">
+                    <h3>חגים ומועדים</h3>
+                    <p>הכנה והעמקה לחגי ישראל ומועדי השנה.</p>
+                </a>
+
+                <!-- נושא לדוגמה 3 -->
+                <a href="/lessons.html?topic=tanya" class="topic-card">
+                    <h3>ספר התניא</h3>
+                    <p>לימוד מעמיק בספר היסוד של חסידות חב"ד.</p>
+                </a>
+
+                <!-- נושא לדוגמה 4 -->
+                <a href="/lessons.html?topic=avodat_hashem" class="topic-card">
+                    <h3>עבודת השם</h3>
+                    <p>שיעורים על תפילה, אמונה וקיום המצוות.</p>
+                </a>
+
+                <!-- נושא לדוגמה 5 -->
+                <a href="/lessons.html?topic=chinuch" class="topic-card">
+                    <h3>חינוך</h3>
+                    <p>עקרונות חסידיים לחינוך ילדים ובני נוער.</p>
+                </a>
+
+                <!-- עוד נושאים... אלו ייטענו דינמית בפיתוח מלא -->
+            </div>
+        </section>
+    </main>
+
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-columns">
+                <div class="footer-col">
+                    <h3>אודות אור הקו</h3>
+                    <p>פלטפורמה להאזנה לשיעורים מעמיקים בחסידות, נגישה לכל אחד ובכל מקום.</p>
+                </div>
+                <div class="footer-col">
+                    <h3>קישורים מהירים</h3>
+                    <ul>
+                        <li><a href="/about.html">מי אנחנו</a></li>
+                        <li><a href="/privacy.html">מדיניות פרטיות</a></li>
+                        <li><a href="/terms.html">תנאי שימוש</a></li>
+                        <li><a href="/accessibility.html">הצהרת נגישות</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>הישאר מעודכן</h3>
+                    <form class="newsletter-form">
+                        <input type="email" placeholder="הכנס כתובת מייל">
+                        <button type="submit">הירשם</button>
+                    </form>
+                    <div class="social-links">
+                        <a href="#" aria-label="פייסבוק"><img src="icons/facebook.svg" alt="פייסבוק"></a>
+                        <a href="#" aria-label="וואטסאפ"><img src="icons/whatsapp.svg" alt="וואטסאפ"></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 אור הקו. כל הזכויות שמורות.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // JS ספציפי לדף נושאים אם יש צורך (לדוגמה, חיפוש נושאים)
+    </script>
+</body>
+</html>
