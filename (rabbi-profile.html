@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>הרב לוי יצחק גרין - אור הקו</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans+Hebrew:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="main-header">
+        <div class="container">
+            <h1 class="logo"><a href="/">אור הקו</a></h1>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="/">דף הבית</a></li>
+                    <li><a href="/lessons.html">כל השיעורים</a></li>
+                    <li><a href="/rabbis.html">רבנים</a></li>
+                    <li><a href="/topics.html">נושאים</a></li>
+                    <li><a href="/about.html">אודות</a></li>
+                    <li><a href="/contact.html">צור קשר</a></li>
+                </ul>
+            </nav>
+            <div class="search-bar">
+                <input type="search" placeholder="חיפוש שיעורים...">
+                <button type="submit">חפש</button>
+            </div>
+            <button class="menu-toggle" aria-label="פתח תפריט ניווט">&#9776;</button>
+        </div>
+    </header>
+
+    <main class="main-content container">
+        <section class="rabbi-profile-section">
+            <div class="rabbi-header">
+                <img src="images/rabbi-profile-1-large.jpg" alt="הרב לוי יצחק גרין" class="rabbi-large-img">
+                <div class="rabbi-header-info">
+                    <h2>הרב לוי יצחק גרין</h2>
+                    <p class="rabbi-title">ראש ישיבת "תפארת מנחם" ומרצה בכיר</p>
+                    <div class="rabbi-social">
+                        <a href="#" aria-label="אתר אישי"><img src="icons/website.svg" alt="אתר אישי"></a>
+                        <a href="#" aria-label="יוטיוב"><img src="icons/youtube.svg" alt="יוטיוב"></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="rabbi-bio">
+                <h3>ביוגרפיה</h3>
+                <p>הרב לוי יצחק גרין נולד בירושלים למשפחה חסידית מיוחסת. למד בישיבות נחשבות ונסמך לרבנות. כיום, הוא מכהן כראש ישיבת "תפארת מנחם" ומעביר שיעורים רבים ברחבי הארץ והעולם. שיעוריו מתאפיינים בעומק, בהירות וחיבור למציאות חיי היומיום, והוא נחשב למשפיע ופורץ דרך בתחום לימוד החסידות לקהלים מגוונים. הרב גרין שם דגש על פנימיות התורה ועל יישומה בחיי הפרט והכלל.</p>
+                <p>ממאות השיעורים שהעביר, רבים מהם זמינים להאזנה באתר "אור הקו".</p>
+            </div>
+
+            <div class="rabbi-lessons">
+                <h3>שיעורים מאת הרב לוי יצחק גרין</h3>
+                <div class="lesson-grid">
+                    <!-- שיעור לדוגמה 1 של הרב -->
+                    <article class="lesson-card">
+                        <img src="images/lesson-thumbnail-2.jpg" alt="תמונת שיעור">
+                        <h3><a href="/lesson-single.html">עומק המצוות: בין פשט לסוד</a></h3>
+                        <p class="lesson-meta">י"ז שבט תשפ"ד</p>
+                        <a href="/lesson-single.html" class="button button-small">האזן</a>
+                    </article>
+
+                    <!-- שיעור לדוגמה 2 של הרב -->
+                    <article class="lesson-card">
+                        <img src="images/lesson-thumbnail-4.jpg" alt="תמונת שיעור">
+                        <h3><a href="/lesson-single.html">כוחה של התבודדות</a></h3>
+                        <p class="lesson-meta">י"א אדר תשפ"ד</p>
+                        <a href="/lesson-single.html" class="button button-small">האזן</a>
+                    </article>
+
+                    <!-- עוד שיעורים... אלו ייטענו דינמית בפיתוח מלא -->
+                </div>
+                <div class="pagination">
+                    <a href="#" class="page-link">&laquo; קודם</a>
+                    <a href="#" class="page-link active">1</a>
+                    <a href="#" class="page-link">2</a>
+                    <a href="#" class="page-link">הבא &raquo;</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-columns">
+                <div class="footer-col">
+                    <h3>אודות אור הקו</h3>
+                    <p>פלטפורמה להאזנה לשיעורים מעמיקים בחסידות, נגישה לכל אחד ובכל מקום.</p>
+                </div>
+                <div class="footer-col">
+                    <h3>קישורים מהירים</h3>
+                    <ul>
+                        <li><a href="/about.html">מי אנחנו</a></li>
+                        <li><a href="/privacy.html">מדיניות פרטיות</a></li>
+                        <li><a href="/terms.html">תנאי שימוש</a></li>
+                        <li><a href="/accessibility.html">הצהרת נגישות</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>הישאר מעודכן</h3>
+                    <form class="newsletter-form">
+                        <input type="email" placeholder="הכנס כתובת מייל">
+                        <button type="submit">הירשם</button>
+                    </form>
+                    <div class="social-links">
+                        <a href="#" aria-label="פייסבוק"><img src="icons/facebook.svg" alt="פייסבוק"></a>
+                        <a href="#" aria-label="וואטסאפ"><img src="icons/whatsapp.svg" alt="וואטסאפ"></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 אור הקו. כל הזכויות שמורות.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
